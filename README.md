@@ -34,13 +34,36 @@ Angular [Universal](https://github.com/angular/universal) module for [Nest](http
 $ npm i --save @nestjs/ng-universal
 ```
 
-## Usage
-
-TBC
-
 ## Example
 
 See full example [here](https://github.com/kamilmysliwiec/universal-nest).
+
+## Usage
+
+```typescript
+@Module({
+  imports: [
+    AngularUniversalModule.forRoot({
+      viewsPath: join(process.cwd(), 'dist/browser'),
+      bundle: require('./../dist/server/main.js'),
+    }),
+  ],
+  controllers: [AppController],
+})
+export class ApplicationModule {}
+```
+
+## API Spec
+
+The `forRoot()` method takes an options object with a few useful properties.
+
+| Property        | Type           | Description  |
+| ------------- | ------------- | ----- |
+| `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
+| `bundle`      | Object      |   Bundle file (webpack output with `AppServerModuleNgFactory`) |
+| `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
+| `rootStaticPath` | string?    | Static files root directory (default: `\*.\*`) |
+| `renderPath` | string?    | Path to render Angular app (default: `\*`) |
 
 ## Support
 
