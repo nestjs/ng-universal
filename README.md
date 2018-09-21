@@ -40,6 +40,8 @@ See full example [here](https://github.com/kamilmysliwiec/universal-nest).
 
 ## Usage
 
+Simply import `AngularUniversalModule` in your Nest application.
+
 ```typescript
 @Module({
   imports: [
