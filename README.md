@@ -62,8 +62,8 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
 | `bundle`      | Object      |   Bundle file (webpack output with `AppServerModuleNgFactory`) |
 | `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
-| `rootStaticPath` | string?    | Static files root directory (default: `\*.\*`) |
-| `renderPath` | string?    | Path to render Angular app (default: `\*`) |
+| `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
+| `renderPath` | string?    | Path to render Angular app (default: `*`) |
 
 ## Support
 
