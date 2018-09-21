@@ -26,21 +26,21 @@
 
 ## Description
 
-JWT utilities module for [Nest](https://github.com/nestjs/nest) based on the [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) package.
+Angular [Universal](https://github.com/angular/universal) module for [Nest](https://github.com/nestjs/nest).
 
 ## Installation
 
 ```bash
-$ npm i --save @nestjs/jwt
+$ npm i --save @nestjs/ng-universal
 ```
 
 ## Usage
 
 TBC
 
-## API Spec
+## Example
 
-TBC
+See full example [here](https://github.com/kamilmysliwiec/universal-nest).
 
 ## Support
 
