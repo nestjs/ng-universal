@@ -43,6 +43,11 @@ See full example [here](https://github.com/kamilmysliwiec/universal-nest).
 Simply import `AngularUniversalModule` in your Nest application.
 
 ```typescript
+import { Module } from '@nestjs/common';
+import { join } from 'path';
+import { AngularUniversalModule } from '@nestjs/ng-universal';
+import { AppController } from './app.controller';
+
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
