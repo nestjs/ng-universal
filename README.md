@@ -69,6 +69,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
+| `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request. |
 
 ## Support
 
