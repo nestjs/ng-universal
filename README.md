@@ -46,7 +46,6 @@ Simply import `AngularUniversalModule` in your Nest application.
 import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
-import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -55,7 +54,6 @@ import { AppController } from './app.controller';
       bundle: require('./../dist/server/main.js'),
     }),
   ],
-  controllers: [AppController],
 })
 export class ApplicationModule {}
 ```
