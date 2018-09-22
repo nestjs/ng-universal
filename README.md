@@ -26,21 +26,49 @@
 
 ## Description
 
-JWT utilities module for [Nest](https://github.com/nestjs/nest) based on the [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) package.
+Angular [Universal](https://github.com/angular/universal) module for [Nest](https://github.com/nestjs/nest).
 
 ## Installation
 
 ```bash
-$ npm i --save @nestjs/jwt
+$ npm i --save @nestjs/ng-universal
 ```
+
+## Example
+
+See full example [here](https://github.com/kamilmysliwiec/universal-nest).
 
 ## Usage
 
-TBC
+Simply import `AngularUniversalModule` in your Nest application.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { join } from 'path';
+import { AngularUniversalModule } from '@nestjs/ng-universal';
+
+@Module({
+  imports: [
+    AngularUniversalModule.forRoot({
+      viewsPath: join(process.cwd(), 'dist/browser'),
+      bundle: require('./../dist/server/main.js'),
+    }),
+  ],
+})
+export class ApplicationModule {}
+```
 
 ## API Spec
 
-TBC
+The `forRoot()` method takes an options object with a few useful properties.
+
+| Property        | Type           | Description  |
+| ------------- | ------------- | ----- |
+| `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
+| `bundle`      | Object      |   Bundle file (webpack output with `AppServerModuleNgFactory`) |
+| `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
+| `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
+| `renderPath` | string?    | Path to render Angular app (default: `*`) |
 
 ## Support
 
