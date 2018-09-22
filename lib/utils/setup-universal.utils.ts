@@ -1,14 +1,14 @@
 import { renderModuleFactory } from '@angular/platform-server';
-import { AngularUniversalOptions } from '..';
 import * as express from 'express';
+import { AngularUniversalOptions } from '..';
 
 export function setupUniversal(
   app,
-  ngOptions: AngularUniversalOptions & { template: string },
+  ngOptions: AngularUniversalOptions & { template: string }
 ) {
   const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = ngOptions.bundle;
   const {
-    provideModuleMap,
+    provideModuleMap
   } = require('@nguniversal/module-map-ngfactory-loader');
 
   app.engine('html', (_, options, callback) => {
@@ -19,9 +19,10 @@ export function setupUniversal(
         provideModuleMap(LAZY_MODULE_MAP),
         {
           provide: 'serverUrl',
-          useValue: `${options.req.protocol}://${options.req.get('host')}`,
+          useValue: `${options.req.protocol}://${options.req.get('host')}`
         },
-      ],
+        ...(ngOptions.extraProviders || [])
+      ]
     }).then(html => {
       callback(null, html);
     });
@@ -29,7 +30,10 @@ export function setupUniversal(
   app.set('view engine', 'html');
   app.set('views', ngOptions.viewsPath);
   // Serve static files
-  app.get('*.*', express.static(ngOptions.viewsPath, {
-    maxAge: 600
-  }));
+  app.get(
+    '*.*',
+    express.static(ngOptions.viewsPath, {
+      maxAge: 600
+    })
+  );
 }

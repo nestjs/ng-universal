@@ -14,12 +14,18 @@
     "@angular/platform-server": "^6.1.8",
     "@nestjs/common": "^5.3.7",
     "@nestjs/core": "^5.3.7",
+    "@nguniversal/common": "^6.1.0",
+    "@nguniversal/express-engine": "^6.1.0",
+    "@nguniversal/module-map-ngfactory-loader": "^6.1.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular/platform-server": "^6.1.8",
     "@nestjs/common": "^5.3.7",
     "@nestjs/core": "^5.3.7",
+    "@nguniversal/common": "^6.1.0",
+    "@nguniversal/express-engine": "^6.1.0",
+    "@nguniversal/module-map-ngfactory-loader": "^6.1.0",
     "@types/node": "^10.10.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.3.0",

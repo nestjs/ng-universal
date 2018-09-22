@@ -22,4 +22,8 @@ export interface AngularUniversalOptions {
    * Default: * (wildcard - all paths)
    */
   renderPath?: string;
+  /**
+   * The platform level providers for the current render request.
+   */
+  extraProviders?: any[];
 }
