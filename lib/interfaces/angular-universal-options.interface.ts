@@ -16,7 +16,7 @@ export interface AngularUniversalOptions {
    * Static files root directory.
    * Default: *.*
    */
-  rootStaticPath?: string;
+  rootStaticPath?: string | RegExp;
   /**
    * Path to render Angular app.
    * Default: * (wildcard - all paths)
