@@ -9,17 +9,22 @@ export interface WebpackEntries {
   [key: string]: string | string[];
 }
 
+export interface WebpackAlias {
+  [key: string]: string | string[];
+}
+
 export class WebpackConfigFactory {
   static create(
     webpack: any,
     entry: WebpackEntries = defaultEntries,
+    alias: WebpackAlias = {},
     currentDir: string = process.cwd()
   ) {
     return {
       entry,
       mode: 'none',
       target: 'node',
-      resolve: { extensions: ['.ts', '.js'] },
+      resolve: { alias, extensions: ['.ts', '.js'] },
       externals: [/node_modules/],
       output: {
         // Puts the output at the root of the dist folder
