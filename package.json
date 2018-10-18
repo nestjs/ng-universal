@@ -17,6 +17,7 @@
     "@nguniversal/common": "^6.1.0",
     "@nguniversal/express-engine": "^6.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.1.0",
+    "memory-cache": "^0.2.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

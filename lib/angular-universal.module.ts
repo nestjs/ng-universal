@@ -7,6 +7,7 @@ import 'zone.js/dist/zone-node';
 import { ANGULAR_UNIVERSAL_OPTIONS } from './angular-universal.constants';
 import { angularUniversalProviders } from './angular-universal.providers';
 import { AngularUniversalOptions } from './interfaces/angular-universal-options.interface';
+import { memoryCacheMiddleware } from './middleware/memory-cache.middleware';
 
 @Module({
   providers: [...angularUniversalProviders]
@@ -50,7 +51,7 @@ export class AngularUniversalModule implements OnModuleInit {
       return;
     }
     const app = httpServer.getInstance();
-    app.get(this.ngOptions.renderPath, (req, res) =>
+    app.get(this.ngOptions.renderPath, memoryCacheMiddleware(30), (req, res) =>
       res.render(this.ngOptions.templatePath, { req })
     );
   }
