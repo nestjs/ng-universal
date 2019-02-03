@@ -51,7 +51,7 @@ export class AngularUniversalModule implements OnModuleInit {
     }
     const app = httpServer.getInstance();
     app.get(this.ngOptions.renderPath, (req, res) =>
-      res.render(this.ngOptions.templatePath, { req })
+      res.render(this.ngOptions.templatePath, { req, res })
     );
   }
 }
