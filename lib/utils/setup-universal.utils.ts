@@ -1,4 +1,5 @@
 import { renderModuleFactory } from '@angular/platform-server';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
 import { AngularUniversalOptions } from '..';
 
@@ -20,6 +21,14 @@ export function setupUniversal(
         {
           provide: 'serverUrl',
           useValue: `${options.req.protocol}://${options.req.get('host')}`
+        },
+        {
+          provide: REQUEST,
+          useValue: options.req
+        },
+        {
+          provide: RESPONSE,
+          useValue: options.res
         },
         ...(ngOptions.extraProviders || [])
       ]
