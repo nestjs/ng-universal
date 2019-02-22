@@ -1,7 +1,7 @@
 import { renderModuleFactory } from '@angular/platform-server';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
 import { AngularUniversalOptions } from '..';
-import {REQUEST, RESPONSE} from '@nguniversal/express-engine/tokens';
 
 export function setupUniversal(
   app,
