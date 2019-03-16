@@ -20,18 +20,18 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular/platform-server": "^7.2.0",
+    "@angular/platform-server": "7.2.9",
     "@nestjs/common": "6.0.0",
     "@nestjs/core": "6.0.0",
-    "@nguniversal/common": "^7.1.0",
-    "@nguniversal/express-engine": "^7.1.0",
-    "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
-    "@types/node": "^10.10.1",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.3.0",
-    "prettier": "^1.14.3",
-    "typescript": "^3.1.1",
-    "zone.js": "^0.8.26"
+    "@nguniversal/common": "7.1.1",
+    "@nguniversal/express-engine": "7.1.1",
+    "@nguniversal/module-map-ngfactory-loader": "7.1.1",
+    "@types/node": "10.14.1",
+    "husky": "0.14.3",
+    "lint-staged": "7.3.0",
+    "prettier": "1.16.4",
+    "typescript": "3.3.3333",
+    "zone.js": "0.8.29"
   },
   "lint-staged": {
     "*.ts": [
