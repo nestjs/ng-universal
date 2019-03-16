@@ -12,8 +12,8 @@
   },
   "peerDependencies": {
     "@angular/platform-server": "^7.2.0",
-    "@nestjs/common": "^5.3.7",
-    "@nestjs/core": "^5.3.7",
+    "@nestjs/common": "^5.3.7 || ^6.0.0",
+    "@nestjs/core": "^5.3.7 || ^6.0.0",
     "@nguniversal/common": "^7.1.0",
     "@nguniversal/express-engine": "^7.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@angular/platform-server": "^7.2.0",
-    "@nestjs/common": "^5.3.7",
-    "@nestjs/core": "^5.3.7",
+    "@nestjs/common": "6.0.0",
+    "@nestjs/core": "6.0.0",
     "@nguniversal/common": "^7.1.0",
     "@nguniversal/express-engine": "^7.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
