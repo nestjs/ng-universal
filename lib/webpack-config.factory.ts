@@ -1,7 +1,8 @@
 import { join } from 'path';
+import * as nodeExternals from 'webpack-node-externals';
 
 const defaultEntries = {
-  // This is our Nest server for dynamic universal (SSR)
+  // A path to Nest server for dynamic universal (SSR)
   server: './server/main.ts'
 };
 
@@ -20,7 +21,11 @@ export class WebpackConfigFactory {
       mode: 'none',
       target: 'node',
       resolve: { extensions: ['.ts', '.js'] },
-      externals: [/node_modules/],
+      externals: [
+        nodeExternals({
+          whitelist: /^(?!@nestjs\/(common|core|microservices)).*/
+        })
+      ],
       output: {
         // Puts the output at the root of the dist folder
         path: join(currentDir, 'dist'),

@@ -1,5 +1,5 @@
 import { DynamicModule, Inject, Module, OnModuleInit } from '@nestjs/common';
-import { ApplicationReferenceHost } from '@nestjs/core';
+import { HttpAdapterHost } from '@nestjs/core';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import 'reflect-metadata';
@@ -15,7 +15,7 @@ export class AngularUniversalModule implements OnModuleInit {
   constructor(
     @Inject(ANGULAR_UNIVERSAL_OPTIONS)
     private readonly ngOptions: AngularUniversalOptions,
-    private readonly appRefHost: ApplicationReferenceHost
+    private readonly httpAdapterHost: HttpAdapterHost
   ) {}
 
   static forRoot(options: AngularUniversalOptions): DynamicModule {
@@ -42,14 +42,14 @@ export class AngularUniversalModule implements OnModuleInit {
   }
 
   async onModuleInit() {
-    if (!this.appRefHost) {
+    if (!this.httpAdapterHost) {
       return;
     }
-    const httpServer = this.appRefHost.applicationRef;
-    if (!httpServer) {
+    const httpAdapter = this.httpAdapterHost.httpAdapter;
+    if (!httpAdapter) {
       return;
     }
-    const app = httpServer.getInstance();
+    const app = httpAdapter.getInstance();
     app.get(this.ngOptions.renderPath, (req, res) =>
       res.render(this.ngOptions.templatePath, { req, res })
     );

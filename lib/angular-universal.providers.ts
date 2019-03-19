@@ -1,17 +1,19 @@
-import { ExpressAdapter } from '@nestjs/core/adapters/express-adapter';
-import { HTTP_SERVER_REF } from '@nestjs/core';
-import { setupUniversal } from './utils/setup-universal.utils';
+import { Provider } from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 import { ANGULAR_UNIVERSAL_OPTIONS } from './angular-universal.constants';
 import { AngularUniversalOptions } from './interfaces/angular-universal-options.interface';
-import { Provider } from '@nestjs/common';
+import { setupUniversal } from './utils/setup-universal.utils';
 
 export const angularUniversalProviders: Provider[] = [
   {
     provide: 'UNIVERSAL_INITIALIZER',
     useFactory: (
-      httpServerRef: ExpressAdapter,
-      options: AngularUniversalOptions & { template: string },
-    ) => setupUniversal(httpServerRef.getInstance(), options),
-    inject: [HTTP_SERVER_REF, ANGULAR_UNIVERSAL_OPTIONS],
-  },
+      host: HttpAdapterHost,
+      options: AngularUniversalOptions & { template: string }
+    ) =>
+      host &&
+      host.httpAdapter &&
+      setupUniversal(host.httpAdapter.getInstance(), options),
+    inject: [HttpAdapterHost, ANGULAR_UNIVERSAL_OPTIONS]
+  }
 ];
