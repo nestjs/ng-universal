@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/ng-universal",
-  "version": "0.4.2-beta.15",
+  "version": "0.4.2-beta.16",
   "description": "Nest - modern, fast, powerful node.js web framework (@ng-universal)",
   "author": "Kamil Mysliwiec",
   "license": "MIT",
@@ -39,8 +39,6 @@
   },
   "dependencies": {
     "@angular-devkit/schematics": "^7.3.6",
-    "@nguniversal/express-engine": "^7.1.1",
-    "@schematics/angular": "^7.3.6",
     "webpack-node-externals": "^1.7.2"
   },
   "schematics": "./schematics/collection.json",

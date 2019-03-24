@@ -21,6 +21,22 @@ import { Schema as UniversalOptions } from './schema';
 const BROWSER_DIST = 'dist/browser';
 const SERVER_DIST = 'dist/server';
 
+function addExpressEngineDependencies(): Rule {
+  return (host: Tree) => {
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
+      name: '@nguniversal/express-engine',
+      version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
+      name: '@schematics/angular',
+      version: '^7.0.0'
+    });
+    return host;
+  };
+}
+
 function addDependenciesAndScripts(options: UniversalOptions): Rule {
   return (host: Tree) => {
     addPackageJsonDependency(host, {
@@ -88,6 +104,7 @@ export default function(options: UniversalOptions): Rule {
     ]);
 
     return chain([
+      addExpressEngineDependencies(),
       externalSchematic('@nguniversal/express-engine', 'ng-add', options),
       removeExpressFiles(),
       mergeWith(rootSource),
