@@ -18,3 +18,7 @@ npm-debug.log
 
 # source
 dist
+
+# schematics
+schematics/install/*.js
+schematics/install/*.d.ts
