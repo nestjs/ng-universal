@@ -1,11 +1,13 @@
 {
   "name": "@nestjs/ng-universal",
-  "version": "0.4.2",
+  "version": "0.4.2-beta.38",
   "description": "Nest - modern, fast, powerful node.js web framework (@ng-universal)",
   "author": "Kamil Mysliwiec",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "npm run build:lib && npm run build:schematics",
+    "build:lib": "tsc -p tsconfig.json",
+    "build:schematics": "tsc -p tsconfig.schematics.json",
     "precommit": "lint-staged",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
@@ -27,23 +29,29 @@
     "@nestjs/common": "6.0.2",
     "@nestjs/core": "6.0.2",
     "@nguniversal/common": "7.1.1",
-    "@nguniversal/express-engine": "7.1.1",
+    "@nguniversal/express-engine": "^7.1.1",
     "@nguniversal/module-map-ngfactory-loader": "7.1.1",
+    "@types/memory-cache": "^0.2.0",
     "@types/node": "11.11.4",
     "express": "4.16.4",
     "husky": "1.3.1",
     "lint-staged": "8.1.5",
     "prettier": "1.16.4",
     "typescript": "3.3.4000",
-    "zone.js": "0.9.0"
+    "zone.js": "0.9.0",
+    "ts-morph": "^1.3.1"
   },
+  "dependencies": {
+    "@angular-devkit/schematics": "^7.3.6",
+    "@schematics/angular": "^7.3.6",
+    "memory-cache": "^0.2.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "schematics": "./schematics/collection.json",
   "lint-staged": {
     "*.ts": [
       "prettier --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "webpack-node-externals": "1.7.2"
   }
 }

@@ -1,10 +1,13 @@
 import { renderModuleFactory } from '@angular/platform-server';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
-import { AngularUniversalOptions } from '..';
+import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
+import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
+
+const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
 
 export function setupUniversal(
-  app,
+  app: any,
   ngOptions: AngularUniversalOptions & { template: string }
 ) {
   const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = ngOptions.bundle;
@@ -12,7 +15,16 @@ export function setupUniversal(
     provideModuleMap
   } = require('@nguniversal/module-map-ngfactory-loader');
 
+  const cacheOptions = getCacheOptions(ngOptions);
   app.engine('html', (_, options, callback) => {
+    const originalUrl = options.req.originalUrl;
+    if (cacheOptions.isEnabled) {
+      const cacheHtml = cacheOptions.storage.get(originalUrl);
+      if (cacheHtml) {
+        return callback(null, cacheHtml);
+      }
+    }
+
     renderModuleFactory(AppServerModuleNgFactory, {
       document: ngOptions.template,
       url: options.req.url,
@@ -33,6 +45,9 @@ export function setupUniversal(
         ...(ngOptions.extraProviders || [])
       ]
     }).then(html => {
+      if (cacheOptions.isEnabled) {
+        cacheOptions.storage.set(originalUrl, html, cacheOptions.expiresIn);
+      }
       callback(null, html);
     });
   });
@@ -45,4 +60,24 @@ export function setupUniversal(
       maxAge: 600
     })
   );
+}
+
+export function getCacheOptions(ngOptions: AngularUniversalOptions) {
+  if (!ngOptions.cache) {
+    return {
+      isEnabled: false
+    };
+  }
+  if (typeof ngOptions.cache !== 'object') {
+    return {
+      isEnabled: true,
+      storage: new InMemoryCacheStorage(),
+      expiresIn: DEFAULT_CACHE_EXPIRATION_TIME
+    };
+  }
+  return {
+    isEnabled: true,
+    storage: ngOptions.cache.storage || new InMemoryCacheStorage(),
+    expiresIn: ngOptions.cache.expiresIn || DEFAULT_CACHE_EXPIRATION_TIME
+  };
 }
