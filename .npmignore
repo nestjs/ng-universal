@@ -7,6 +7,5 @@ tsconfig.json
 .prettierrc
 
 # schematics
-schematics/install/index.ts
-schematics/install/schema.ts
-schematics/install/utils.ts
+schematics/install/*.ts
+schematics/install/express-engine/*.ts

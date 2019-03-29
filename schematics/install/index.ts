@@ -1,4 +1,4 @@
-import { strings } from '@angular-devkit/core';
+import { experimental, strings } from '@angular-devkit/core';
 import {
   apply,
   chain,
@@ -12,33 +12,19 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { getWorkspace } from '@schematics/angular/utility/config';
 import {
   addPackageJsonDependency,
   NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
+import { addModuleMapLoader, updateConfigFile } from './express-engine/rules';
 import { Schema as UniversalOptions } from './schema';
 
 const BROWSER_DIST = 'dist/browser';
 const SERVER_DIST = 'dist/server';
 
-function addExpressEngineDependencies(): Rule {
-  return (host: Tree) => {
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: '@nguniversal/express-engine',
-      version: '^7.0.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: '@schematics/angular',
-      version: '^7.0.0'
-    });
-    return host;
-  };
-}
-
 function addDependenciesAndScripts(options: UniversalOptions): Rule {
-  return (host: Tree) => {
+  return (host: Tree, context: SchematicContext) => {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/common',
@@ -55,9 +41,24 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
       version: '^6.0.0'
     });
     addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
+      name: '@nguniversal/express-engine',
+      version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
+      name: '@nguniversal/module-map-ngfactory-loader',
+      version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
-      name: 'http-server',
-      version: '^0.11.1'
+      name: 'ts-loader',
+      version: '^5.2.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
+      name: 'webpack-cli',
+      version: '^3.1.0'
     });
 
     const pkgPath = '/package.json';
@@ -67,28 +68,44 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     }
 
     const pkg = JSON.parse(buffer.toString());
-
+    pkg.scripts['compile:server'] =
+      'webpack --config webpack.server.config.js --progress --colors';
+    pkg.scripts['serve:ssr'] = `node dist/server`;
+    pkg.scripts['build:ssr'] =
+      'npm run build:client-and-server-bundles && npm run compile:server';
     pkg.scripts[
-      'build:prerender'
-    ] = `npm run build:ssr && npm run generate:prerender`;
-    pkg.scripts['generate:prerender'] = `cd dist && node prerender`;
-    pkg.scripts['serve:prerender'] = `cd dist/browser && http-server -p 8080`;
+      'build:client-and-server-bundles'
+    ] = `ng build --prod && ng run ${options.clientProject}:server:production`;
 
     host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
     return host;
   };
 }
 
-function removeExpressFiles(): Rule {
-  return (host: Tree) => {
-    host.get('webpack.server.config.js') &&
-      host.delete('webpack.server.config.js');
-    host.get('server.ts') && host.delete('server.ts');
-  };
+function getClientProject(
+  host: Tree,
+  options: UniversalOptions
+): experimental.workspace.WorkspaceProject {
+  const workspace = getWorkspace(host);
+  const clientProject = workspace.projects[options.clientProject];
+  if (!clientProject) {
+    throw new SchematicsException(
+      `Client app ${options.clientProject} not found.`
+    );
+  }
+
+  return clientProject;
 }
 
 export default function(options: UniversalOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    const clientProject = getClientProject(host, options);
+    if (clientProject.projectType !== 'application') {
+      throw new SchematicsException(
+        `Universal requires a project type of "application".`
+      );
+    }
+
     if (!options.skipInstall) {
       context.addTask(new NodePackageInstallTask());
     }
@@ -104,11 +121,11 @@ export default function(options: UniversalOptions): Rule {
     ]);
 
     return chain([
-      addExpressEngineDependencies(),
-      externalSchematic('@nguniversal/express-engine', 'ng-add', options),
-      removeExpressFiles(),
+      externalSchematic('@schematics/angular', 'universal', options),
+      updateConfigFile(options),
       mergeWith(rootSource),
-      addDependenciesAndScripts(options)
+      addDependenciesAndScripts(options),
+      addModuleMapLoader(options)
     ]);
   };
 }

@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AngularUniversalModule, applyDomino } from '@nestjs/ng-universal';
+import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
-
-const BROWSER_DIR = join(process.cwd(), '<%= getBrowserDistDirectory() %>');
-applyDomino(global, join(BROWSER_DIR, 'index.html'));
 
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
-      viewsPath: BROWSER_DIR,
+      viewsPath: join(process.cwd(), '<%= getBrowserDistDirectory() %>'),
       bundle: require('../<%= getServerDistDirectory() %>/main')
     })
   ]

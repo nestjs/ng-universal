@@ -24,10 +24,6 @@ export interface Schema {
    */
   serverPort?: number;
   /**
-   * The name of the TypeScript configuration file.
-   */
-  tsconfigFileName?: string;
-  /**
    * The name of the application directory.
    */
   appDir?: string;
