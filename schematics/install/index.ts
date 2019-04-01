@@ -37,6 +37,11 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
+      name: 'reflect-metadata',
+      version: '^0.1.13'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
       name: '@nestjs/platform-express',
       version: '^6.0.0'
     });
