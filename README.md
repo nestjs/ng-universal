@@ -33,7 +33,7 @@ Angular [Universal](https://github.com/angular/universal) module for [Nest](http
 Using the Angular CLI:
 
 ```bash
-ng add @nestjs/ng-universal
+$ ng add @nestjs/ng-universal
 ```
 
 Or manually:
