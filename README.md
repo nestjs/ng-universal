@@ -30,13 +30,13 @@ Angular [Universal](https://github.com/angular/universal) module for [Nest](http
 
 ## Installation
 
-Using Angular CLI:
+Using the Angular CLI:
 
 ```bash
 ng add @nestjs/ng-universal
 ```
 
-Manually:
+Or manually:
 
 ```bash
 $ npm i --save @nestjs/ng-universal
