@@ -13,6 +13,7 @@ export function applyDomino(global, templatePath) {
     createTransformOptions(),
   );
   global['document'] = win.document;
+  global['navigator'] = win.navigator;
   global['CSS'] = null;
   global['Prism'] = null;
 }
