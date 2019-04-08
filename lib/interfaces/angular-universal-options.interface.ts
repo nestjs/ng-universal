@@ -37,4 +37,8 @@ export interface AngularUniversalOptions {
         expiresIn?: number;
         storage?: CacheStorage;
       };
+  /**
+   * Enable live-reload (auto-browser refresh)
+   */
+  liveReload?: boolean;
 }

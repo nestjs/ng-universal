@@ -1,6 +1,7 @@
 import { renderModuleFactory } from '@angular/platform-server';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
+import { LIVE_RELOAD_SCRIPT } from '../angular-universal.constants';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
 import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
 
@@ -47,6 +48,13 @@ export function setupUniversal(
     }).then(html => {
       if (cacheOptions.isEnabled) {
         cacheOptions.storage.set(originalUrl, html, cacheOptions.expiresIn);
+      }
+      if (ngOptions.liveReload) {
+        const headTagIndex = html.indexOf('<head>');
+        html =
+          html.substr(0, headTagIndex + 6) +
+          LIVE_RELOAD_SCRIPT +
+          html.substr(headTagIndex + 7, html.length);
       }
       callback(null, html);
     });

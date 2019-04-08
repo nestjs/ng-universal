@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/ng-universal",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@ng-universal)",
   "author": "Kamil Mysliwiec",
   "license": "MIT",
