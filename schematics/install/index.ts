@@ -62,6 +62,11 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
+      name: 'wait-on',
+      version: '^3.2.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
       name: 'webpack-cli',
       version: '^3.1.0'
     });
@@ -73,6 +78,7 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     }
 
     const pkg = JSON.parse(buffer.toString());
+    pkg.scripts['serve'] = 'node serve-script';
     pkg.scripts['compile:server'] =
       'webpack --config webpack.server.config.js --progress --colors';
     pkg.scripts['serve:ssr'] = `node dist/server`;
@@ -121,7 +127,8 @@ export default function(options: UniversalOptions): Rule {
         ...(options as object),
         stripTsExtension: (s: string) => s.replace(/\.ts$/, ''),
         getBrowserDistDirectory: () => BROWSER_DIST,
-        getServerDistDirectory: () => SERVER_DIST
+        getServerDistDirectory: () => SERVER_DIST,
+        getClientProjectName: () => options.clientProject
       })
     ]);
 

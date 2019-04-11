@@ -6,7 +6,11 @@ import { join } from 'path';
   imports: [
     AngularUniversalModule.forRoot({
       viewsPath: join(process.cwd(), '<%= getBrowserDistDirectory() %>'),
-      bundle: require('../<%= getServerDistDirectory() %>/main')
+      bundle: require(join(
+        process.cwd(),
+        '<%= getServerDistDirectory() %>/main'
+      )),
+      liveReload: true
     })
   ]
 })

@@ -23,7 +23,7 @@ export class WebpackConfigFactory {
       resolve: { extensions: ['.ts', '.js'] },
       externals: [
         nodeExternals({
-          whitelist: /^(?!@nestjs\/(common|core|microservices)).*/
+          whitelist: /^(?!(@nestjs\/(common|core|microservices)|livereload|concurrently)).*/
         })
       ],
       output: {

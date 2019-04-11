@@ -93,7 +93,7 @@ export function addModuleMapLoader(options: UniversalOptions): Rule {
     const importModule = 'ModuleMapLoaderModule';
     const importPath = '@nguniversal/module-map-ngfactory-loader';
     const moduleMapImportChange = insertImport(
-      moduleSource,
+      moduleSource as any,
       modulePath,
       importModule,
       importPath
@@ -111,7 +111,7 @@ export function addModuleMapLoader(options: UniversalOptions): Rule {
     const importText = 'ModuleMapLoaderModule';
     moduleSource = getTsSourceFile(host, modulePath);
     const metadataChanges = addSymbolToNgModuleMetadata(
-      moduleSource,
+      moduleSource as any,
       modulePath,
       'imports',
       importText

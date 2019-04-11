@@ -32,12 +32,12 @@ export function findAppServerModuleExport(
     true
   );
 
-  const allNodes = getSourceNodes(source);
+  const allNodes = getSourceNodes(source as any);
 
   let exportDeclaration: ts.ExportDeclaration | null = null;
 
   for (const node of allNodes) {
-    let exportDeclarationNode: ts.Node | null = node;
+    let exportDeclarationNode: ts.Node | any = node;
 
     // Walk up the parent until ExportDeclaration is found.
     while (
