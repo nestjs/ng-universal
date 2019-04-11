@@ -70,6 +70,11 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
       name: 'webpack-cli',
       version: '^3.1.0'
     });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
+      name: 'nodemon',
+      version: '^1.18.11'
+    });
 
     const pkgPath = '/package.json';
     const buffer = host.read(pkgPath);
