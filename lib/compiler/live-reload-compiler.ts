@@ -3,22 +3,26 @@ import * as spawn from 'cross-spawn';
 
 const defaultOptions: LiveReloadCompilerOptions = {
   projectName: 'app',
-  webpackConfigFile: 'webpack.server.config.js',
   browserBundlePath: './dist/browser',
   tsServerConfigFile: 'server/tsconfig.json',
   watchDir: 'dist',
+  serverBundlePath: 'dist/server/main.js',
   serverFilePath: 'dist/server-app/main',
-  mainBundlePath: 'dist/browser/main.js'
+  mainBundlePath: 'dist/browser/main.js',
+  outputDir: 'dist',
+  watchSsr: true
 };
 
 export interface LiveReloadCompilerOptions {
   projectName: string;
-  webpackConfigFile?: string;
   browserBundlePath?: string;
   tsServerConfigFile?: string;
   watchDir?: string;
   serverFilePath?: string;
   mainBundlePath?: string;
+  outputDir?: string;
+  watchSsr?: boolean;
+  serverBundlePath?: string;
 }
 
 export class LiveReloadCompiler {
@@ -33,19 +37,22 @@ export class LiveReloadCompiler {
   async run() {
     const {
       projectName,
-      webpackConfigFile,
       browserBundlePath,
       tsServerConfigFile,
       watchDir,
       serverFilePath,
-      mainBundlePath
+      mainBundlePath,
+      outputDir,
+      watchSsr,
+      serverBundlePath
     } = this.options;
 
     // Pre-build all packages (SSR)
-    const SSR_BUILD_SCRIPT = `ng build --prod && ng run ${projectName}:server:production`;
-    const SERVER_COMPILE_SCRIPT = `node_modules/.bin/webpack --config ${webpackConfigFile} --progress --colors`;
-
-    const script = spawn(`${SSR_BUILD_SCRIPT} && ${SERVER_COMPILE_SCRIPT}`, {
+    let PREBUILD_SCRIPT = `rimraf ${outputDir}`;
+    if (!watchSsr) {
+      PREBUILD_SCRIPT += `&& ng run ${projectName}:server:production`;
+    }
+    const script = spawn(`${PREBUILD_SCRIPT}`, {
       shell: true,
       stdio: 'inherit'
     });
@@ -53,7 +60,7 @@ export class LiveReloadCompiler {
     // Setup live reload server (websocket)
     const livereload = require('livereload');
     const server = livereload.createServer();
-    server.watch(browserBundlePath); // join(__dirname, 'dist', 'browser')
+    server.watch(browserBundlePath);
     process.on('SIGINT', () => {
       try {
         // tslint:disable-next-line:no-unused-expression
@@ -66,18 +73,26 @@ export class LiveReloadCompiler {
       if (code !== 0) {
         return;
       }
+      const commands = [
+        'ng build --aot --watch --delete-output-path=false',
+        `tsc --watch -p ${tsServerConfigFile}`
+      ];
+      if (watchSsr) {
+        commands.push(
+          `wait-on ${mainBundlePath} && wait-on ${serverBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+        );
+        commands.push(`ng run ${projectName}:server:production --watch`);
+      } else {
+        commands.push(
+          `wait-on ${mainBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+        );
+      }
+
       // Static server + live browser reload + watch mode + initial SSR (first build)
-      concurrently(
-        [
-          'ng build --aot --watch --delete-output-path=false',
-          `tsc --watch -p ${tsServerConfigFile}`,
-          `node_modules/.bin/wait-on ${mainBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
-        ],
-        {
-          raw: true,
-          killOthers: true
-        }
-      );
+      concurrently(commands, {
+        raw: true,
+        killOthers: true
+      });
     });
   }
 }

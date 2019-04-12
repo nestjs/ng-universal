@@ -39,6 +39,15 @@ export class WebpackConfigFactory {
             // Removing this will cause deprecation warnings to appear.
             test: /(\\|\/)@angular(\\|\/)core(\\|\/).+\.js$/,
             parser: { system: true }
+          },
+          {
+            test: /\module.ts$/,
+            loader: 'string-replace-loader',
+            options: {
+              search: '../server/main',
+              replace: '../dist/server/main',
+              flags: 'g'
+            }
           }
         ]
       },

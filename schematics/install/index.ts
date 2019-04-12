@@ -72,6 +72,16 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
+      name: 'string-replace-loader',
+      version: '^2.1.1'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
+      name: 'rimraf',
+      version: '^2.6.3'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Dev,
       name: 'nodemon',
       version: '^1.18.11'
     });
