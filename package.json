@@ -44,9 +44,9 @@
   "dependencies": {
     "@angular-devkit/schematics": "7.3.7",
     "@schematics/angular": "7.3.7",
-    "concurrently": "^4.1.0",
-    "cross-spawn": "^6.0.5",
-    "livereload": "^0.7.0",
+    "concurrently": "4.1.0",
+    "cross-spawn": "6.0.5",
+    "livereload": "0.7.0",
     "memory-cache": "0.2.0",
     "webpack-node-externals": "1.7.2"
   },
