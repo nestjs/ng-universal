@@ -67,7 +67,7 @@ export class LiveReloadCompiler {
     // Setup live reload server (websocket)
     const livereload = require('livereload');
     const server = livereload.createServer({
-      delay: 1000,
+      delay: 300,
       ...(liveReloadOptions || {})
     });
     server.watch(outputDir);
