@@ -3,26 +3,29 @@ import * as spawn from 'cross-spawn';
 
 const defaultOptions: LiveReloadCompilerOptions = {
   projectName: 'app',
-  browserBundlePath: './dist/browser',
   tsServerConfigFile: 'server/tsconfig.json',
-  watchDir: 'dist',
+  watchDir: 'dist/server-app',
   serverBundlePath: 'dist/server/main.js',
   serverFilePath: 'dist/server-app/main',
   mainBundlePath: 'dist/browser/main.js',
+  indexFilePath: 'dist/browser/index.html',
   outputDir: 'dist',
   watchSsr: true
 };
 
 export interface LiveReloadCompilerOptions {
   projectName: string;
-  browserBundlePath?: string;
   tsServerConfigFile?: string;
   watchDir?: string;
   serverFilePath?: string;
-  mainBundlePath?: string;
   outputDir?: string;
   watchSsr?: boolean;
   serverBundlePath?: string;
+  indexFilePath?: string;
+  /** @deprecated */
+  mainBundlePath?: string;
+  /** @deprecated */
+  browserBundlePath?: string;
 }
 
 export class LiveReloadCompiler {
@@ -36,12 +39,11 @@ export class LiveReloadCompiler {
 
   async run() {
     const {
+      indexFilePath,
       projectName,
-      browserBundlePath,
       tsServerConfigFile,
       watchDir,
       serverFilePath,
-      mainBundlePath,
       outputDir,
       watchSsr,
       serverBundlePath
@@ -60,7 +62,7 @@ export class LiveReloadCompiler {
     // Setup live reload server (websocket)
     const livereload = require('livereload');
     const server = livereload.createServer();
-    server.watch(browserBundlePath);
+    server.watch(outputDir);
     process.on('SIGINT', () => {
       try {
         // tslint:disable-next-line:no-unused-expression
@@ -79,12 +81,12 @@ export class LiveReloadCompiler {
       ];
       if (watchSsr) {
         commands.push(
-          `wait-on ${mainBundlePath} && wait-on ${serverBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+          `wait-on ${indexFilePath} && wait-on ${serverBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
         );
         commands.push(`ng run ${projectName}:server:production --watch`);
       } else {
         commands.push(
-          `wait-on ${mainBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+          `wait-on ${indexFilePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
         );
       }
 
