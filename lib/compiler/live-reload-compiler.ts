@@ -4,7 +4,7 @@ import * as spawn from 'cross-spawn';
 const defaultOptions: LiveReloadCompilerOptions = {
   projectName: 'app',
   tsServerConfigFile: 'server/tsconfig.json',
-  watchDir: 'dist/server-app',
+  watchDir: 'dist',
   serverBundlePath: 'dist/server/main.js',
   serverFilePath: 'dist/server-app/main',
   mainBundlePath: 'dist/browser/main.js',
@@ -22,6 +22,10 @@ export interface LiveReloadCompilerOptions {
   watchSsr?: boolean;
   serverBundlePath?: string;
   indexFilePath?: string;
+  /**
+   * Options object passed down to the livereload package
+   */
+  liveReloadOptions?: Record<string, any>;
   /** @deprecated */
   mainBundlePath?: string;
   /** @deprecated */
@@ -46,7 +50,8 @@ export class LiveReloadCompiler {
       serverFilePath,
       outputDir,
       watchSsr,
-      serverBundlePath
+      serverBundlePath,
+      liveReloadOptions
     } = this.options;
 
     // Pre-build all packages (SSR)
@@ -61,7 +66,10 @@ export class LiveReloadCompiler {
 
     // Setup live reload server (websocket)
     const livereload = require('livereload');
-    const server = livereload.createServer();
+    const server = livereload.createServer({
+      delay: 1000,
+      ...(liveReloadOptions || {})
+    });
     server.watch(outputDir);
     process.on('SIGINT', () => {
       try {
