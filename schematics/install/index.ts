@@ -68,7 +68,7 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@angular/http',
-      version: '^8.0.0-beta.12'
+      version: '^8.0.0-beta.10'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
