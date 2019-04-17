@@ -52,8 +52,23 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
+      name: '@nguniversal/express-engine',
+      version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
+      name: '@nguniversal/express-engine',
+      version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
       name: '@nguniversal/module-map-ngfactory-loader',
       version: '^7.0.0'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
+      name: '@angular/http',
+      version: '^8.0.0-beta.12'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
