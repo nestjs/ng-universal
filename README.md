@@ -79,6 +79,39 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
 | `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
 
+## Express Request and Response Providers
+
+This tool uses `@nguniversal/express-engine` and will properly provide access to the Express Request and Response objects in you Angular components.
+
+This is useful for things like setting the response code to 404 when your Angular router can't find a page (i.e. `path: '**'` in routing):
+
+```ts
+import { Response } from 'express';
+import { Component, Inject, Optional, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { RESPONSE } from '@nguniversal/express-engine/tokens';
+
+@Component({
+  selector: 'my-not-found',
+  templateUrl: './not-found.component.html',
+  styleUrls: ['./not-found.component.scss'],
+})
+export class NotFoundComponent {
+  constructor(
+    @Inject(PLATFORM_ID)
+    private platformId: any,
+    @Optional()
+    @Inject(RESPONSE)
+    res: Response,
+  ) {
+    // `res` is the express response, only available on the server
+    if (isPlatformServer(this.platformId)) {
+      res.status(404);
+    }
+  }
+}
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
