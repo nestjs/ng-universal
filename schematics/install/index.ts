@@ -24,7 +24,7 @@ const BROWSER_DIST = 'dist/browser';
 const SERVER_DIST = 'dist/server';
 
 function addDependenciesAndScripts(options: UniversalOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree) => {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/common',
