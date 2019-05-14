@@ -79,7 +79,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
 | `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
 
-## Express Request and Response Providers
+## Request and Response Providers
 
 This tool uses `@nguniversal/express-engine` and will properly provide access to the Express Request and Response objects in you Angular components.
 
@@ -99,7 +99,7 @@ import { RESPONSE } from '@nguniversal/express-engine/tokens';
 export class NotFoundComponent {
   constructor(
     @Inject(PLATFORM_ID)
-    private platformId: any,
+    private readonly platformId: any,
     @Optional()
     @Inject(RESPONSE)
     res: Response,
