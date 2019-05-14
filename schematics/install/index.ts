@@ -24,7 +24,7 @@ const BROWSER_DIST = 'dist/browser';
 const SERVER_DIST = 'dist/server';
 
 function addDependenciesAndScripts(options: UniversalOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree) => {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/common',
@@ -113,7 +113,8 @@ function getClientProject(
   options: UniversalOptions
 ): experimental.workspace.WorkspaceProject {
   const workspace = getWorkspace(host);
-  const clientProject = workspace.projects[options.clientProject];
+  const clientName = options.clientProject.trim();
+  const clientProject = workspace.projects[clientName];
   if (!clientProject) {
     throw new SchematicsException(
       `Client app ${options.clientProject} not found.`
