@@ -89,12 +89,12 @@ export class LiveReloadCompiler {
       ];
       if (watchSsr) {
         commands.push(
-          `wait-on ${indexFilePath} && wait-on ${serverBundlePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+          `wait-on ${indexFilePath} && wait-on ${serverBundlePath} && nodemon --watch ${watchDir} --delay 1 ${serverFilePath}`
         );
         commands.push(`ng run ${projectName}:server:production --watch`);
       } else {
         commands.push(
-          `wait-on ${indexFilePath} && nodemon --watch ${watchDir} ${serverFilePath} --delay 1 --exec "node"`
+          `wait-on ${indexFilePath} && nodemon --watch ${watchDir} --delay 1 ${serverFilePath}`
         );
       }
 
