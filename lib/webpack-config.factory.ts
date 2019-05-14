@@ -14,7 +14,8 @@ export class WebpackConfigFactory {
   static create(
     webpack: any,
     entry: WebpackEntries = defaultEntries,
-    currentDir: string = process.cwd()
+    currentDir: string = process.cwd(),
+    projectDir: string = currentDir
   ) {
     return {
       entry,
@@ -55,7 +56,7 @@ export class WebpackConfigFactory {
         new webpack.ContextReplacementPlugin(
           // fixes WARNING Critical dependency: the request of a dependency is an expression
           /((.+)?angular(\\|\/)core(.+)?|express(.+)?|(.+)?nestjs(\\|\/)(.+)?)?/,
-          join(currentDir, 'src'), // location of your src
+          join(projectDir, 'src'), // location of your src
           {}
         )
       ]
