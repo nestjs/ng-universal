@@ -58,8 +58,8 @@ export function updateConfigFile(options: UniversalOptions): Rule {
       production: {
         fileReplacements: [
           {
-            replace: 'src/environments/environment.ts',
-            with: 'src/environments/environment.prod.ts'
+            replace: `${clientProject.root}src/environments/environment.ts`,
+            with: `${clientProject.root}src/environments/environment.prod.ts`
           }
         ]
       }
