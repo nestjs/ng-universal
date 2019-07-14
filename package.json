@@ -33,7 +33,7 @@
     "@nguniversal/module-map-ngfactory-loader": "8.1.1",
     "@types/memory-cache": "0.2.0",
     "@types/node": "^11.13.10",
-    "express": "4.16.4",
+    "express": "4.17.1",
     "husky": "3.0.0",
     "lint-staged": "9.2.0",
     "prettier": "1.18.2",
