@@ -39,7 +39,7 @@
     "prettier": "1.18.2",
     "ts-morph": "3.1.1",
     "typescript": "3.4.4",
-    "zone.js": "0.8.29"
+    "zone.js": "0.9.1"
   },
   "dependencies": {
     "@angular-devkit/schematics": "8.1.1",
