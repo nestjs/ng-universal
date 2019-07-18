@@ -16,6 +16,39 @@ import * as ts from 'typescript';
  * without any console output (blank line).
  */
 
+export function getTsSourceText(host: Tree, path: string): string {
+  const buffer = host.read(path);
+  if (!buffer) {
+    throw new SchematicsException(`Could not read file (${path}).`);
+  }
+  return buffer.toString();
+}
+
+export function generateExport(
+  sourceFile: ts.SourceFile,
+  elements: string[],
+  module: string
+): string {
+  const printer = ts.createPrinter();
+  const exports = elements.map(element =>
+    ts.createExportSpecifier(undefined, element)
+  );
+  const namedExports = ts.createNamedExports(exports);
+  const moduleSpecifier = ts.createStringLiteral(module);
+  const exportDeclaration = ts.createExportDeclaration(
+    undefined,
+    undefined,
+    namedExports,
+    moduleSpecifier
+  );
+
+  return printer.printNode(
+    ts.EmitHint.Unspecified,
+    exportDeclaration,
+    sourceFile
+  );
+}
+
 export function findAppServerModuleExport(
   host: Tree,
   mainPath: string

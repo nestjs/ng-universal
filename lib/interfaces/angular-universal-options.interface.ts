@@ -8,7 +8,12 @@ export interface AngularUniversalOptions {
   /**
    * Bundle file (webpack output with "AppServerModuleNgFactory")
    */
-  bundle: { AppServerModuleNgFactory; LAZY_MODULE_MAP };
+  bundle: {
+    AppServerModuleNgFactory;
+    LAZY_MODULE_MAP;
+    provideModuleMap;
+    ngExpressEngine;
+  };
   /**
    * Path to index file.
    * Default: {viewsPaths}/index.html

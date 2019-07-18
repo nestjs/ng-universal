@@ -1,5 +1,3 @@
-import { renderModuleFactory } from '@angular/platform-server';
-import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
 import { LIVE_RELOAD_SCRIPT } from '../angular-universal.constants';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
@@ -11,10 +9,12 @@ export function setupUniversal(
   app: any,
   ngOptions: AngularUniversalOptions & { template: string }
 ) {
-  const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = ngOptions.bundle;
   const {
-    provideModuleMap
-  } = require('@nguniversal/module-map-ngfactory-loader');
+    AppServerModuleNgFactory,
+    LAZY_MODULE_MAP,
+    provideModuleMap,
+    ngExpressEngine
+  } = ngOptions.bundle;
 
   const cacheOptions = getCacheOptions(ngOptions);
   app.engine('html', (_, options, callback) => {
@@ -26,26 +26,19 @@ export function setupUniversal(
       }
     }
 
-    renderModuleFactory(AppServerModuleNgFactory, {
+    ngExpressEngine({
+      bootstrap: AppServerModuleNgFactory,
       document: ngOptions.template,
       url: options.req.url,
-      extraProviders: [
+      providers: [
         provideModuleMap(LAZY_MODULE_MAP),
         {
           provide: 'serverUrl',
           useValue: `${options.req.protocol}://${options.req.get('host')}`
         },
-        {
-          provide: REQUEST,
-          useValue: options.req
-        },
-        {
-          provide: RESPONSE,
-          useValue: options.res
-        },
         ...(ngOptions.extraProviders || [])
       ]
-    }).then(html => {
+    })(_, options, (err, html) => {
       if (cacheOptions.isEnabled) {
         cacheOptions.storage.set(originalUrl, html, cacheOptions.expiresIn);
       }

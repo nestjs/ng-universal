@@ -17,7 +17,11 @@ import {
   addPackageJsonDependency,
   NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
-import { addModuleMapLoader, updateConfigFile } from './express-engine/rules';
+import {
+  addExports,
+  addModuleMapLoader,
+  updateConfigFile
+} from './express-engine/rules';
 import { Schema as UniversalOptions } from './schema';
 
 const BROWSER_DIST = 'dist/browser';
@@ -48,12 +52,12 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nguniversal/express-engine',
-      version: '^7.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nguniversal/module-map-ngfactory-loader',
-      version: '^7.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
@@ -69,11 +73,6 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
       type: NodeDependencyType.Dev,
       name: 'webpack-cli',
       version: '^3.1.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'string-replace-loader',
-      version: '^2.1.1'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Dev,
@@ -153,7 +152,8 @@ export default function(options: UniversalOptions): Rule {
       updateConfigFile(options),
       mergeWith(rootSource),
       addDependenciesAndScripts(options),
-      addModuleMapLoader(options)
+      addModuleMapLoader(options),
+      addExports(options)
     ]);
   };
 }

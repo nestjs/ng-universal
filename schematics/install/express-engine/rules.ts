@@ -9,6 +9,8 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   addSymbolToNgModuleMetadata,
+  findNodes,
+  insertAfterLastOccurrence,
   insertImport
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
@@ -21,8 +23,11 @@ import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { BrowserBuilderOptions } from '@schematics/angular/utility/workspace-models';
 import * as ts from 'typescript';
 import { Schema as UniversalOptions } from './../schema';
-import { findAppServerModulePath } from './utils';
-
+import {
+  findAppServerModulePath,
+  generateExport,
+  getTsSourceText
+} from './utils';
 /**
  * These snippets had to be copied from the @nguniversal/express-engine package
  * in order to fix issue with external schematics evaluation chain. When external
@@ -123,6 +128,43 @@ export function addModuleMapLoader(options: UniversalOptions): Rule {
       });
       host.commitUpdate(recorder);
     }
+  };
+}
+
+export function addExports(options: UniversalOptions): Rule {
+  return (host: Tree) => {
+    const clientProject = getProject(host, options.clientProject);
+    const clientTargets = getProjectTargets(clientProject);
+
+    if (!clientTargets.server) {
+      return;
+    }
+
+    const mainPath = normalize('/' + clientTargets.server.options.main);
+    const mainSourceFile = getTsSourceFile(host, mainPath);
+    let mainText = getTsSourceText(host, mainPath);
+    const mainRecorder = host.beginUpdate(mainPath);
+    const expressEngineExport = generateExport(
+      mainSourceFile,
+      ['ngExpressEngine'],
+      '@nguniversal/express-engine'
+    );
+    const moduleMapExport = generateExport(
+      mainSourceFile,
+      ['provideModuleMap'],
+      '@nguniversal/module-map-ngfactory-loader'
+    );
+    const exports = findNodes(mainSourceFile, ts.SyntaxKind.ExportDeclaration);
+    const addedExports = `\n${expressEngineExport}\n${moduleMapExport}\n`;
+    const exportChange = insertAfterLastOccurrence(
+      exports,
+      addedExports,
+      mainText,
+      0
+    ) as InsertChange;
+
+    mainRecorder.insertLeft(exportChange.pos, exportChange.toAdd);
+    host.commitUpdate(mainRecorder);
   };
 }
 

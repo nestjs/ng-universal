@@ -23,6 +23,7 @@ export class WebpackConfigFactory {
       target: 'node',
       resolve: { extensions: ['.ts', '.js'] },
       externals: [
+        { '../server/main': 'require("./server/main")' },
         nodeExternals({
           whitelist: /^(?!(@nestjs\/(common|core|microservices)|livereload|concurrently)).*/
         })
@@ -33,6 +34,7 @@ export class WebpackConfigFactory {
         filename: '[name].js'
       },
       module: {
+        noParse: /polyfills-.*\.js/,
         rules: [
           { test: /\.ts$/, loader: 'ts-loader' },
           {
@@ -40,15 +42,6 @@ export class WebpackConfigFactory {
             // Removing this will cause deprecation warnings to appear.
             test: /(\\|\/)@angular(\\|\/)core(\\|\/).+\.js$/,
             parser: { system: true }
-          },
-          {
-            test: /\module.ts$/,
-            loader: 'string-replace-loader',
-            options: {
-              search: '../server/main',
-              replace: '../dist/server/main',
-              flags: 'g'
-            }
           }
         ]
       },

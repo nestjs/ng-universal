@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/ng-universal",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@ng-universal)",
   "author": "Kamil Mysliwiec",
   "license": "MIT",
@@ -15,12 +15,11 @@
     "publish:next": "npm publish --access public --tag next"
   },
   "peerDependencies": {
-    "@angular/platform-server": "^7.2.9 || ^8.0.0",
+    "@angular/platform-server": "^8.0.0",
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
-    "@nguniversal/common": "^7.1.1 || ^8.0.0",
-    "@nguniversal/express-engine": "^7.1.1 || ^8.0.0",
-    "@nguniversal/module-map-ngfactory-loader": "^7.1.1 || ^8.0.0",
+    "@nguniversal/common": "^8.0.0",
+    "@nguniversal/express-engine": "^8.0.0",
     "express": "^4.16.4",
     "zone.js": "^0.8.29 || ^0.9.0"
   },
@@ -30,7 +29,6 @@
     "@nestjs/core": "6.5.2",
     "@nguniversal/common": "8.1.1",
     "@nguniversal/express-engine": "8.1.1",
-    "@nguniversal/module-map-ngfactory-loader": "8.1.1",
     "@types/memory-cache": "0.2.0",
     "@types/node": "^11.13.10",
     "express": "4.17.1",
@@ -48,7 +46,6 @@
     "cross-spawn": "6.0.5",
     "livereload": "0.8.0",
     "memory-cache": "0.2.0",
-    "string-replace-loader": "^2.1.1",
     "webpack-node-externals": "1.7.2"
   },
   "schematics": "./schematics/collection.json",
