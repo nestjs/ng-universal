@@ -30,7 +30,7 @@
     "@nguniversal/common": "8.1.1",
     "@nguniversal/express-engine": "8.1.1",
     "@types/memory-cache": "0.2.0",
-    "@types/node": "11.13.18",
+    "@types/node": "11.13.19",
     "express": "4.17.1",
     "husky": "3.0.2",
     "lint-staged": "9.2.1",
