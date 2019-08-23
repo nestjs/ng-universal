@@ -23,7 +23,7 @@
     },
     "serverPort": {
       "type": "number",
-      "default": 4000,
+      "default": 4200,
       "description": "The port for the Nest server."
     },
     "appDir": {
