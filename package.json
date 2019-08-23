@@ -40,8 +40,8 @@
     "zone.js": "0.10.1"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "8.2.1",
-    "@schematics/angular": "8.2.1",
+    "@angular-devkit/schematics": "8.3.0",
+    "@schematics/angular": "8.3.0",
     "concurrently": "4.1.2",
     "cross-spawn": "6.0.5",
     "livereload": "0.8.0",
