@@ -43,7 +43,7 @@
     "@angular-devkit/schematics": "8.3.4",
     "@schematics/angular": "8.3.4",
     "concurrently": "4.1.2",
-    "cross-spawn": "6.0.5",
+    "cross-spawn": "7.0.0",
     "livereload": "0.8.0",
     "memory-cache": "0.2.0",
     "webpack-node-externals": "1.7.2"
