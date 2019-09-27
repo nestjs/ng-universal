@@ -44,7 +44,7 @@
     "@schematics/angular": "8.3.6",
     "concurrently": "4.1.2",
     "cross-spawn": "7.0.0",
-    "livereload": "0.8.0",
+    "livereload": "0.8.1",
     "memory-cache": "0.2.0",
     "webpack-node-externals": "1.7.2"
   },
