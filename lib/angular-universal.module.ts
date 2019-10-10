@@ -11,7 +11,7 @@ import { AngularUniversalOptions } from './interfaces/angular-universal-options.
 @Module({
   providers: [...angularUniversalProviders]
 })
-export class AngularUniversalModule implements OnModuleInit {
+export class AngularUniversalModule {
   constructor(
     @Inject(ANGULAR_UNIVERSAL_OPTIONS)
     private readonly ngOptions: AngularUniversalOptions,
@@ -39,19 +39,5 @@ export class AngularUniversalModule implements OnModuleInit {
         }
       ]
     };
-  }
-
-  async onModuleInit() {
-    if (!this.httpAdapterHost) {
-      return;
-    }
-    const httpAdapter = this.httpAdapterHost.httpAdapter;
-    if (!httpAdapter) {
-      return;
-    }
-    const app = httpAdapter.getInstance();
-    app.get(this.ngOptions.renderPath, (req, res) =>
-      res.render(this.ngOptions.templatePath, { req, res })
-    );
   }
 }
