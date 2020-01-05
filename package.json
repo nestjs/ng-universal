@@ -42,7 +42,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "8.3.19",
     "@schematics/angular": "8.3.19",
-    "concurrently": "5.0.0",
+    "concurrently": "5.0.2",
     "cross-spawn": "7.0.1",
     "livereload": "0.8.2",
     "memory-cache": "0.2.0",
