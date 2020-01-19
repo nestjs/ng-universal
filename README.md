@@ -78,6 +78,39 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
 | `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
+| `cache` | boolean? \| object?    | cache options, description below (default: `true`) |
+
+### Cache
+
+| Property        | Type           | Description  |
+| ------------- | ------------- | ----- |
+| `expiresIn`      | number? | Cache expiration in milliseconds (default: `60000`) |
+| `storage`      | CacheStorage?      | Interface for implementing custom cache storage (default: in memory) |
+| `keyGenerator` | CacheKeyGenerator?      | Interface for implementing custom cache key generation logic (default: by url) |
+
+```typescript
+AngularUniversalModule.forRoot({
+      bootstrap: AppServerModule,
+      viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser'),
+      cache: {
+        storage: new InMemoryCacheStorage(),
+        expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
+        keyGenerator: new CustomCacheKeyGenerator(),
+      }
+    })
+```
+
+### Example for CacheKeyGenerator:
+```typescript
+export class CustomCacheKeyGenerator implements CacheKeyGenerator {
+  generateCacheKey(request: Request): string {
+    const md = new MobileDetect(request.headers['user-agent']);
+    const ismobile = md.mobile() ? 'mobile' : 'desktop';
+    return (request.hostname + request.originalUrl + ismobile).toLowerCase();
+  }
+}
+```
+
 
 ## Request and Response Providers
 
