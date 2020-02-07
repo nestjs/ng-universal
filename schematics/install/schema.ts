@@ -20,9 +20,17 @@ export interface Schema {
    */
   main?: string;
   /**
-   * The port for the Nest server.
+   * The name of the Express server file.
+   */
+  serverFileName?: string;
+  /**
+   * The port for the Express server.
    */
   serverPort?: number;
+  /**
+   * The name of the TypeScript configuration file.
+   */
+  tsconfigFileName?: string;
   /**
    * The name of the application directory.
    */

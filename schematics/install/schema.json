@@ -7,7 +7,9 @@
     "clientProject": {
       "type": "string",
       "description": "Name of related client app.",
-      "x-prompt": "What is the name of your application?"
+      "$default": {
+        "$source": "projectName"
+      }
     },
     "appId": {
       "type": "string",
@@ -21,10 +23,20 @@
       "description": "The name of the main entry-point file.",
       "default": "main.server.ts"
     },
+    "serverFileName": {
+      "type": "string",
+      "default": "server.ts",
+      "description": "The name of the Express server file."
+    },
     "serverPort": {
       "type": "number",
-      "default": 4200,
-      "description": "The port for the Nest server."
+      "default": 4000,
+      "description": "The port for the Express server."
+    },
+    "tsconfigFileName": {
+      "type": "string",
+      "default": "tsconfig.server",
+      "description": "The name of the TypeScript configuration file."
     },
     "appDir": {
       "type": "string",
@@ -49,5 +61,6 @@
       "default": false
     }
   },
-  "required": ["clientProject"]
+  "required": ["clientProject"],
+  "additionalProperties": false
 }

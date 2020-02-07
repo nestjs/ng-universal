@@ -7,7 +7,6 @@ tslint.json
 
 # schematics
 schematics/install/*.ts
-schematics/install/express-engine/*.ts
 
 # misc
 .DS_Store

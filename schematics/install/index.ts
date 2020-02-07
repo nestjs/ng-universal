@@ -1,8 +1,10 @@
-import { experimental, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import {
   apply,
   chain,
   externalSchematic,
+  FileEntry,
+  forEach,
   mergeWith,
   Rule,
   SchematicContext,
@@ -12,22 +14,17 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { getWorkspace } from '@schematics/angular/utility/config';
+import { getOutputPath } from '@nguniversal/common/schematics/utils';
 import {
   addPackageJsonDependency,
   NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
-import {
-  addExports,
-  addModuleMapLoader,
-  updateConfigFile
-} from './express-engine/rules';
+import { updateWorkspace } from '@schematics/angular/utility/workspace';
 import { Schema as UniversalOptions } from './schema';
 
-const BROWSER_DIST = 'dist/browser';
 const SERVER_DIST = 'dist/server';
 
-function addDependenciesAndScripts(options: UniversalOptions): Rule {
+function addDependenciesAndScripts(): Rule {
   return (host: Tree) => {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
@@ -46,43 +43,28 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
+      name: 'class-transformer',
+      version: '^0.2.3'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
+      name: 'class-validator',
+      version: '^0.9.1'
+    });
+    addPackageJsonDependency(host, {
+      type: NodeDependencyType.Default,
       name: '@nestjs/platform-express',
       version: '^6.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
-      name: '@nguniversal/express-engine',
-      version: '^8.0.0'
+      name: '@nestjs/ng-universal',
+      version: '^2.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
-      name: '@nguniversal/module-map-ngfactory-loader',
-      version: '^8.0.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'ts-loader',
-      version: '^5.2.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'wait-on',
-      version: '^3.2.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'webpack-cli',
-      version: '^3.1.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'rimraf',
-      version: '^2.6.3'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Dev,
-      name: 'nodemon',
-      version: '^1.18.11'
+      name: '@nguniversal/express-engine',
+      version: '^9.0.0'
     });
 
     const pkgPath = '/package.json';
@@ -90,70 +72,85 @@ function addDependenciesAndScripts(options: UniversalOptions): Rule {
     if (buffer === null) {
       throw new SchematicsException('Could not find package.json');
     }
-
     const pkg = JSON.parse(buffer.toString());
-    pkg.scripts['serve'] = 'node serve-script';
-    pkg.scripts['compile:server'] =
-      'webpack --config webpack.server.config.js --progress --colors';
-    pkg.scripts['serve:ssr'] = `node dist/server`;
-    pkg.scripts['build:ssr'] =
-      'npm run build:client-and-server-bundles && npm run compile:server';
-    pkg.scripts[
-      'build:client-and-server-bundles'
-    ] = `ng build --prod && ng run ${options.clientProject}:server:production`;
+    pkg.scripts = {
+      ...pkg.scripts,
+      'prebuild:ssr': `ngcc`
+    };
 
     host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
-    return host;
   };
 }
 
-function getClientProject(
-  host: Tree,
-  options: UniversalOptions
-): experimental.workspace.WorkspaceProject {
-  const workspace = getWorkspace(host);
-  const clientName = options.clientProject.trim();
-  const clientProject = workspace.projects[clientName];
-  if (!clientProject) {
-    throw new SchematicsException(
-      `Client app ${options.clientProject} not found.`
-    );
-  }
+function updateWorkspaceConfigRule(options: UniversalOptions): Rule {
+  return () => {
+    return updateWorkspace(workspace => {
+      const projectName = options.clientProject;
+      const project = workspace.projects.get(projectName);
+      if (!project) {
+        return;
+      }
 
-  return clientProject;
+      const serverTarget = project.targets.get('server');
+      serverTarget.options.externalDependencies = [
+        '@nestjs/microservices',
+        '@nestjs/microservices/microservices-module',
+        '@nestjs/websockets',
+        '@nestjs/websockets/socket-module',
+        'cache-manager'
+      ];
+      const configurations = serverTarget.configurations;
+      if (!configurations) {
+        return;
+      }
+      if (configurations.production) {
+        configurations.production.optimization = false;
+      }
+    });
+  };
+}
+
+function addFiles(options: UniversalOptions): Rule {
+  return async (tree: Tree, _context: SchematicContext) => {
+    const browserDistDirectory = await getOutputPath(
+      tree,
+      options.clientProject,
+      'build'
+    );
+    const rule = mergeWith(
+      apply(url('./files/root'), [
+        template({
+          ...strings,
+          ...(options as object),
+          stripTsExtension: (s: string) => s.replace(/\.ts$/, ''),
+          getBrowserDistDirectory: () => browserDistDirectory,
+          getServerDistDirectory: () => SERVER_DIST,
+          getClientProjectName: () => options.clientProject
+        }),
+        forEach((fileEntry: FileEntry) => {
+          if (tree.exists(fileEntry.path)) {
+            tree.overwrite(fileEntry.path, fileEntry.content);
+            return null;
+          }
+          return fileEntry;
+        })
+      ])
+    );
+    return rule;
+  };
 }
 
 export default function(options: UniversalOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const clientProject = getClientProject(host, options);
-    if (clientProject.projectType !== 'application') {
-      throw new SchematicsException(
-        `Universal requires a project type of "application".`
-      );
-    }
-
     if (!options.skipInstall) {
       context.addTask(new NodePackageInstallTask());
     }
 
-    const rootSource = apply(url('./files/root'), [
-      template({
-        ...strings,
-        ...(options as object),
-        stripTsExtension: (s: string) => s.replace(/\.ts$/, ''),
-        getBrowserDistDirectory: () => BROWSER_DIST,
-        getServerDistDirectory: () => SERVER_DIST,
-        getClientProjectName: () => options.clientProject
-      })
-    ]);
-
     return chain([
-      externalSchematic('@schematics/angular', 'universal', options),
-      updateConfigFile(options),
-      mergeWith(rootSource),
-      addDependenciesAndScripts(options),
-      addModuleMapLoader(options),
-      addExports(options)
+      externalSchematic('@nguniversal/express-engine', 'ng-add', options),
+      addFiles(options),
+      addDependenciesAndScripts(),
+      updateWorkspaceConfigRule(options)
     ]);
   };
 }

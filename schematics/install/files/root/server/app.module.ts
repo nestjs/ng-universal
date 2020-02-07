@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
+import { AppServerModule } from '../src/main.server';
 
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
-      viewsPath: join(process.cwd(), '<%= getBrowserDistDirectory() %>'),
-      bundle: require('../server/main'),
-      liveReload: true
+      bootstrap: AppServerModule,
+      viewsPath: join(process.cwd(), '<%= getBrowserDistDirectory() %>')
     })
   ]
 })
-export class ApplicationModule {}
+export class AppModule {}
