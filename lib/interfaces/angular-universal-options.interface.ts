@@ -6,15 +6,6 @@ export interface AngularUniversalOptions {
    */
   viewsPath: string;
   /**
-   * Bundle file (webpack output with "AppServerModuleNgFactory")
-   */
-  bundle: {
-    AppServerModuleNgFactory;
-    LAZY_MODULE_MAP;
-    provideModuleMap;
-    ngExpressEngine;
-  };
-  /**
    * Path to index file.
    * Default: {viewsPaths}/index.html
    */
@@ -43,7 +34,7 @@ export interface AngularUniversalOptions {
         storage?: CacheStorage;
       };
   /**
-   * Enable live-reload (auto-browser refresh)
+   * Module to bootstrap
    */
-  liveReload?: boolean;
+  bootstrap: any;
 }

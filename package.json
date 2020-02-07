@@ -15,20 +15,20 @@
     "publish:next": "npm publish --access public --tag next"
   },
   "peerDependencies": {
-    "@angular/platform-server": "^8.0.0",
+    "@angular/platform-server": "^9.0.0",
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
-    "@nguniversal/common": "^8.0.0",
-    "@nguniversal/express-engine": "^8.0.0",
-    "express": "^4.16.4",
+    "@nguniversal/common": "^9.0.0",
+    "@nguniversal/express-engine": "^9.0.0",
+    "express": "^4.17.1",
     "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0"
   },
   "devDependencies": {
-    "@angular/platform-server": "8.2.12",
+    "@angular/platform-server": "9.0.0",
     "@nestjs/common": "6.8.5",
     "@nestjs/core": "6.8.5",
-    "@nguniversal/common": "8.1.1",
-    "@nguniversal/express-engine": "8.1.1",
+    "@nguniversal/common": "9.0.0",
+    "@nguniversal/express-engine": "9.0.0",
     "@types/memory-cache": "0.2.0",
     "@types/node": "11.15.0",
     "express": "4.17.1",
