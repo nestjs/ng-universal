@@ -58,8 +58,8 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
-      viewsPath: join(process.cwd(), 'dist/browser'),
-      bundle: require('./../dist/server/main.js'),
+      bootstrap: AppServerModule,
+      viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser')
     }),
   ],
 })
@@ -73,7 +73,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | Property        | Type           | Description  |
 | ------------- | ------------- | ----- |
 | `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
-| `bundle`      | Object      |   Bundle file (webpack output with `AppServerModuleNgFactory`) |
+| `bootstrap`      | Function      |   Angular server module reference (`AppServerModule`). |
 | `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
