@@ -36,7 +36,7 @@
     "lint-staged": "10.0.7",
     "prettier": "1.19.1",
     "ts-morph": "6.0.3",
-    "typescript": "3.5.3",
+    "typescript": "3.7.5",
     "zone.js": "0.10.2"
   },
   "dependencies": {
