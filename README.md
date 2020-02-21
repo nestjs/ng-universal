@@ -7,7 +7,7 @@
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
 [linux-url]: https://travis-ci.org/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
+  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -58,8 +58,8 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
-      viewsPath: join(process.cwd(), 'dist/browser'),
-      bundle: require('./../dist/server/main.js'),
+      bootstrap: AppServerModule,
+      viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser')
     }),
   ],
 })
@@ -73,7 +73,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | Property        | Type           | Description  |
 | ------------- | ------------- | ----- |
 | `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
-| `bundle`      | Object      |   Bundle file (webpack output with `AppServerModuleNgFactory`) |
+| `bootstrap`      | Function      |   Angular server module reference (`AppServerModule`). |
 | `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
