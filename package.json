@@ -27,8 +27,8 @@
   "devDependencies": {
     "@angular/common": "9.0.4",
     "@angular/platform-server": "9.0.4",
-    "@nestjs/common": "6.11.8",
-    "@nestjs/core": "6.11.8",
+    "@nestjs/common": "6.11.9",
+    "@nestjs/core": "6.11.9",
     "@types/memory-cache": "0.2.0",
     "@types/node": "13.7.7",
     "express": "4.17.1",
