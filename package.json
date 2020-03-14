@@ -17,8 +17,8 @@
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/platform-server": "^9.0.0",
-    "@nestjs/common": "^6.0.0",
-    "@nestjs/core": "^6.0.0",
+    "@nestjs/common": "^6.0.0 || ^7.0.0",
+    "@nestjs/core": "^6.0.0 || ^7.0.0",
     "@nguniversal/common": "^9.0.0",
     "@nguniversal/express-engine": "^9.0.0",
     "express": "^4.17.1",
@@ -27,8 +27,8 @@
   "devDependencies": {
     "@angular/common": "9.0.6",
     "@angular/platform-server": "9.0.6",
-    "@nestjs/common": "6.11.11",
-    "@nestjs/core": "6.11.11",
+    "@nestjs/common": "7.0.1",
+    "@nestjs/core": "7.0.1",
     "@types/memory-cache": "0.2.1",
     "@types/node": "13.9.1",
     "express": "4.17.1",
