@@ -39,7 +39,7 @@ $ ng add @nestjs/ng-universal
 Or manually:
 
 ```bash
-$ npm i --save @nestjs/ng-universal
+$ npm i @nestjs/ng-universal
 ```
 
 ## Example
@@ -48,7 +48,7 @@ See full example [here](https://github.com/kamilmysliwiec/universal-nest).
 
 ## Usage
 
-Simply import `AngularUniversalModule` in your Nest application.
+If you have installed the module manually, you need to import `AngularUniversalModule` in your Nest application.
 
 ```typescript
 import { Module } from '@nestjs/common';
