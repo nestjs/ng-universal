@@ -30,7 +30,7 @@
     "@nestjs/common": "7.0.6",
     "@nestjs/core": "7.0.6",
     "@types/memory-cache": "0.2.1",
-    "@types/node": "13.9.4",
+    "@types/node": "13.9.5",
     "express": "4.17.1",
     "husky": "4.2.3",
     "lint-staged": "10.0.9",
