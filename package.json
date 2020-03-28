@@ -43,7 +43,7 @@
     "@angular-devkit/schematics": "9.1.0",
     "@schematics/angular": "9.1.0",
     "@nguniversal/common": "9.0.2",
-    "@nguniversal/express-engine": "9.0.2",
+    "@nguniversal/express-engine": "9.1.0",
     "memory-cache": "0.2.0"
   },
   "schematics": "./schematics/collection.json",
