@@ -35,7 +35,7 @@
     "husky": "4.2.3",
     "lint-staged": "10.0.9",
     "prettier": "2.0.2",
-    "ts-morph": "7.0.0",
+    "ts-morph": "7.0.1",
     "typescript": "3.8.3",
     "zone.js": "0.10.3"
   },
