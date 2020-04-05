@@ -34,7 +34,7 @@
     "express": "4.17.1",
     "husky": "4.2.3",
     "lint-staged": "10.1.2",
-    "prettier": "2.0.2",
+    "prettier": "2.0.3",
     "ts-morph": "7.0.1",
     "typescript": "3.8.3",
     "zone.js": "0.10.3"
