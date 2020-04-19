@@ -33,7 +33,7 @@
     "@types/node": "13.13.0",
     "express": "4.17.1",
     "husky": "4.2.5",
-    "lint-staged": "10.1.5",
+    "lint-staged": "10.1.6",
     "prettier": "2.0.4",
     "ts-morph": "7.0.2",
     "typescript": "3.8.3",
