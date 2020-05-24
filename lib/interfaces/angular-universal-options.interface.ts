@@ -1,4 +1,5 @@
 import { CacheStorage } from './cache-storage.interface';
+import { CacheKeyGenerator } from './cache-key-generator.interface';
 
 export interface AngularUniversalOptions {
   /**
@@ -32,6 +33,7 @@ export interface AngularUniversalOptions {
     | {
         expiresIn?: number;
         storage?: CacheStorage;
+        keyGenerator?: CacheKeyGenerator;
       };
   /**
    * Module to bootstrap

@@ -2,6 +2,7 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
 import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
+import { CacheKeyByOriginalUrlGenerator } from '../cache/cahce-key-by-original-url.generator';
 
 const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
 
@@ -9,9 +10,11 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   const cacheOptions = getCacheOptions(ngOptions);
 
   app.engine('html', (_, options, callback) => {
-    const originalUrl = options.req.originalUrl;
+    let cacheKey;
     if (cacheOptions.isEnabled) {
-      const cacheHtml = cacheOptions.storage.get(originalUrl);
+      const cacheKeyGenerator = cacheOptions.keyGenerator;
+      cacheKey = cacheKeyGenerator.generateCacheKey(options.req);
+      const cacheHtml = cacheOptions.storage.get(cacheKey);
       if (cacheHtml) {
         return callback(null, cacheHtml);
       }
@@ -27,8 +30,8 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
         ...(ngOptions.extraProviders || [])
       ]
     })(_, options, (err, html) => {
-      if (cacheOptions.isEnabled) {
-        cacheOptions.storage.set(originalUrl, html, cacheOptions.expiresIn);
+      if (cacheOptions.isEnabled && cacheKey) {
+        cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
       }
       callback(null, html);
     });
@@ -56,12 +59,15 @@ export function getCacheOptions(ngOptions: AngularUniversalOptions) {
     return {
       isEnabled: true,
       storage: new InMemoryCacheStorage(),
-      expiresIn: DEFAULT_CACHE_EXPIRATION_TIME
+      expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
+      keyGenerator: new CacheKeyByOriginalUrlGenerator()
     };
   }
   return {
     isEnabled: true,
     storage: ngOptions.cache.storage || new InMemoryCacheStorage(),
-    expiresIn: ngOptions.cache.expiresIn || DEFAULT_CACHE_EXPIRATION_TIME
+    expiresIn: ngOptions.cache.expiresIn || DEFAULT_CACHE_EXPIRATION_TIME,
+    keyGenerator:
+      ngOptions.cache.keyGenerator || new CacheKeyByOriginalUrlGenerator()
   };
 }
