@@ -78,7 +78,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
 | `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
-| `cache` | boolean? \| object?    | cache options, description below (default: `true`) |
+| `cache` | boolean? \| object?    | Cache options, description below (default: `true`) |
 
 ### Cache
 
@@ -90,17 +90,18 @@ The `forRoot()` method takes an options object with a few useful properties.
 
 ```typescript
 AngularUniversalModule.forRoot({
-      bootstrap: AppServerModule,
-      viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser'),
-      cache: {
-        storage: new InMemoryCacheStorage(),
-        expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
-        keyGenerator: new CustomCacheKeyGenerator(),
-      }
-    })
+  bootstrap: AppServerModule,
+  viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser'),
+  cache: {
+    storage: new InMemoryCacheStorage(),
+    expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
+    keyGenerator: new CustomCacheKeyGenerator(),
+  }
+})
 ```
 
 ### Example for CacheKeyGenerator:
+
 ```typescript
 export class CustomCacheKeyGenerator implements CacheKeyGenerator {
   generateCacheKey(request: Request): string {
@@ -110,7 +111,6 @@ export class CustomCacheKeyGenerator implements CacheKeyGenerator {
   }
 }
 ```
-
 
 ## Request and Response Providers
 
