@@ -106,8 +106,8 @@ AngularUniversalModule.forRoot({
 export class CustomCacheKeyGenerator implements CacheKeyGenerator {
   generateCacheKey(request: Request): string {
     const md = new MobileDetect(request.headers['user-agent']);
-    const ismobile = md.mobile() ? 'mobile' : 'desktop';
-    return (request.hostname + request.originalUrl + ismobile).toLowerCase();
+    const isMobile = md.mobile() ? 'mobile' : 'desktop';
+    return (request.hostname + request.originalUrl + isMobile).toLowerCase();
   }
 }
 ```
