@@ -40,8 +40,8 @@
     "zone.js": "0.10.3"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "9.1.9",
-    "@schematics/angular": "9.1.9",
+    "@angular-devkit/schematics": "10.0.5",
+    "@schematics/angular": "10.0.5",
     "@nguniversal/common": "10.0.2",
     "@nguniversal/express-engine": "10.0.2",
     "memory-cache": "0.2.0"
