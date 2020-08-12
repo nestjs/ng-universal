@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/ng-universal",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@ng-universal)",
   "author": "Kamil Mysliwiec",
   "license": "MIT",
@@ -15,14 +15,15 @@
     "publish:next": "npm publish --access public --tag next"
   },
   "peerDependencies": {
-    "@angular/common": "^9.0.0 || ^10.0.0",
-    "@angular/platform-server": "^9.0.0 || ^10.0.0",
-    "@nestjs/common": "^6.0.0 || ^7.0.0",
-    "@nestjs/core": "^6.0.0 || ^7.0.0",
-    "@nguniversal/common": "^9.0.0 || ^10.0.0",
-    "@nguniversal/express-engine": "^9.0.0 || ^10.0.0",
+    "@angular/common": "^10.0.0",
+    "@angular/platform-server": "^10.0.0",
+    "@nestjs/common": "^7.0.0",
+    "@nestjs/core": "^7.0.0",
+    "@nestjs/platform-express": "^7.0.0",
+    "@nguniversal/common": "^10.0.0",
+    "@nguniversal/express-engine": "^10.0.0",
     "express": "^4.17.1",
-    "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0"
+    "zone.js": "^0.10.0"
   },
   "devDependencies": {
     "@angular/common": "10.0.8",
