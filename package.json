@@ -19,7 +19,7 @@
     "@angular/platform-server": "^9.0.0 || ^10.0.0",
     "@nestjs/common": "^6.0.0 || ^7.0.0",
     "@nestjs/core": "^6.0.0 || ^7.0.0",
-    "@nguniversal/common": "^9.0.0",
+    "@nguniversal/common": "^9.0.0 || ^10.0.0",
     "@nguniversal/express-engine": "^9.0.0",
     "express": "^4.17.1",
     "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0"
@@ -42,7 +42,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "9.1.9",
     "@schematics/angular": "9.1.9",
-    "@nguniversal/common": "9.1.1",
+    "@nguniversal/common": "10.0.2",
     "@nguniversal/express-engine": "9.1.1",
     "memory-cache": "0.2.0"
   },
