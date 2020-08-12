@@ -26,8 +26,8 @@
     "zone.js": "^0.10.0"
   },
   "devDependencies": {
-    "@angular/common": "10.0.8",
-    "@angular/platform-server": "10.0.8",
+    "@angular/common": "10.0.9",
+    "@angular/platform-server": "10.0.9",
     "@nestjs/common": "7.4.2",
     "@nestjs/core": "7.4.2",
     "@types/memory-cache": "0.2.1",
