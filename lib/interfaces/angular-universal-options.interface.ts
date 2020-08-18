@@ -22,9 +22,13 @@ export interface AngularUniversalOptions {
    */
   renderPath?: string;
   /**
-   * The platform level providers for the current render request.
+   * The platform level static-providers for the current render request.
    */
-  extraProviders?: any[];
+  staticProviders?: any[];
+  /**
+   * The platform level dynamic-providers for the current render request, passing request it self and response.
+   */
+  dynamicProviders?: (req, res) => any[];
   /**
    * Cache options (flag or configuration object)
    */

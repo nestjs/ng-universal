@@ -27,7 +27,9 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
           provide: 'serverUrl',
           useValue: `${options.req.protocol}://${options.req.get('host')}`
         },
-        ...(ngOptions.extraProviders || [])
+        ,
+        ...(ngOptions.staticProviders || []),
+        ...(ngOptions.dynamicProviders(options.req, options.res) || [])
       ]
     })(_, options, (err, html) => {
       if (cacheOptions.isEnabled && cacheKey) {
