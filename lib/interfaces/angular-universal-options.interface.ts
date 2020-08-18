@@ -24,7 +24,7 @@ export interface AngularUniversalOptions {
   /**
    * The platform level static-providers for the current render request.
    */
-  staticProviders?: any[];
+  extraProviders?: any[];
   /**
    * The platform level dynamic-providers for the current render request, passing request it self and response.
    */

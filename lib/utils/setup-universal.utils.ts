@@ -28,7 +28,7 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
           useValue: `${options.req.protocol}://${options.req.get('host')}`
         },
         ,
-        ...(ngOptions.staticProviders || []),
+        ...(ngOptions.extraProviders || []),
         ...(ngOptions.dynamicProviders(options.req, options.res) || [])
       ]
     })(_, options, (err, html) => {
