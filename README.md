@@ -78,6 +78,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
 | `renderPath` | string?    | Path to render Angular app (default: `*`) |
 | `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
+| `dynamicProviders` | StaticProvider[]?    | Using the request and response objects to return the platform level providers to the rendering request |
 | `cache` | boolean? \| object?    | Cache options, description below (default: `true`) |
 
 ### Cache
@@ -141,6 +142,88 @@ export class NotFoundComponent {
     if (isPlatformServer(this.platformId)) {
       res.status(404);
     }
+  }
+}
+```
+
+## Providers
+
+```typescript
+export interface Token {
+  access: string;
+}
+
+export const getTokenFromCookie(req): Token {
+  // code to extract token with request object
+  const token = { access: 'sdfsdffasdsd' };
+  return token;
+}
+
+import { Module } from '@nestjs/common';
+import { join } from 'path';
+import { AngularUniversalModule } from '@nestjs/ng-universal';
+
+@Module({
+  imports: [
+    AngularUniversalModule.forRoot({
+      bootstrap: AppServerModule,
+      viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser'),
+      extraProviders: [{ provide: 'SERVER_TEST', useValue: 10 }],
+      dynamicProviders: [{ provide: 'SERVER_TOKEN', useValue: (req, res) => getTokenFromCookie(req) }]
+    }),
+  ],
+})
+export class ApplicationModule {}
+```
+
+### Using Dynamic Providers on Client
+
+We can use to set Authorization Header, for example, on a AppServerModule Interceptor Provider.
+
+```typescript
+import { Injectable, Inject, PLATFORM_ID, Optional } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { isPlatformServer } from '@angular/common';
+
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
+import { Request, Response } from 'express';
+import { Observable } from 'rxjs';
+
+import { Token } from '...'; // import from a common model between client and server
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UniversalInterceptor implements HttpInterceptor {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    @Inject('SERVER_TOKEN') private token: Token,
+    @Inject('SERVER_TEST') private test: number,
+    @Optional() @Inject(REQUEST) protected request: Request
+  ) {
+    if (!isPlatformServer(this.platformId)) {
+      throw new Error('This interceptor can be used only on server context');
+    }
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let serverReq: HttpRequest<any> = req;
+    if (this.request && this.token) {
+      let newUrl = `${this.request.protocol}://${this.request.get('host')}`;
+      if (!req.url.startsWith('/')) {
+        newUrl += '/';
+      }
+      newUrl += req.url;
+      serverReq = req.clone({
+        url: newUrl,
+        withCredentials: true,
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.token.access}`,
+          Test: this.test,
+        }),
+      });
+    }
+    return next.handle(serverReq);
   }
 }
 ```
