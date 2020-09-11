@@ -70,23 +70,24 @@ export class ApplicationModule {}
 
 The `forRoot()` method takes an options object with a few useful properties.
 
-| Property        | Type           | Description  |
-| ------------- | ------------- | ----- |
-| `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
-| `bootstrap`      | Function      |   Angular server module reference (`AppServerModule`). |
-| `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
-| `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
-| `renderPath` | string?    | Path to render Angular app (default: `*`) |
-| `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
-| `cache` | boolean? \| object?    | Cache options, description below (default: `true`) |
+| Property         | Type                | Description                                                                |
+| ---------------- | ------------------- | -------------------------------------------------------------------------- |
+| `viewsPath`      | string              | The directory where the module should look for client bundle (Angular app) |
+| `bootstrap`      | Function            | Angular server module reference (`AppServerModule`).                       |
+| `templatePath`   | string?             | Path to index file (default: `{viewsPaths}/index.html`)                    |
+| `rootStaticPath` | string?             | Static files root directory (default: `*.*`)                               |
+| `renderPath`     | string?             | Path to render Angular app (default: `*`)                                  |
+| `extraProviders` | StaticProvider[]?   | The platform level providers for the current render request                |
+| `cache`          | boolean? \| object? | Cache options, description below (default: `true`)                         |
+| `errorHandler`   | Function?           | Callback to be called in case of a rendering error                         |
 
 ### Cache
 
-| Property        | Type           | Description  |
-| ------------- | ------------- | ----- |
-| `expiresIn`      | number? | Cache expiration in milliseconds (default: `60000`) |
-| `storage`      | CacheStorage?      | Interface for implementing custom cache storage (default: in memory) |
-| `keyGenerator` | CacheKeyGenerator?      | Interface for implementing custom cache key generation logic (default: by url) |
+| Property       | Type               | Description                                                                    |
+| -------------- | ------------------ | ------------------------------------------------------------------------------ |
+| `expiresIn`    | number?            | Cache expiration in milliseconds (default: `60000`)                            |
+| `storage`      | CacheStorage?      | Interface for implementing custom cache storage (default: in memory)           |
+| `keyGenerator` | CacheKeyGenerator? | Interface for implementing custom cache key generation logic (default: by url) |
 
 ```typescript
 AngularUniversalModule.forRoot({
