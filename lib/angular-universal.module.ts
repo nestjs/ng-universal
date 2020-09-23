@@ -7,6 +7,7 @@ import 'reflect-metadata';
 import { ANGULAR_UNIVERSAL_OPTIONS } from './angular-universal.constants';
 import { angularUniversalProviders } from './angular-universal.providers';
 import { AngularUniversalOptions } from './interfaces/angular-universal-options.interface';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
 @Module({
   providers: [...angularUniversalProviders]
@@ -54,7 +55,11 @@ export class AngularUniversalModule implements OnModuleInit {
       res.render(this.ngOptions.templatePath, {
         req,
         res,
-        providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
+        providers: [
+            { provide: APP_BASE_HREF, useValue: req.baseUrl },
+            { provide: REQUEST, useValue: req },
+            { provide: RESPONSE, useValue: res }
+          ]
       })
     );
   }
