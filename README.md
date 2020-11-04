@@ -79,6 +79,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `renderPath`     | string?             | Path to render Angular app (default: `*`)                                  |
 | `extraProviders` | StaticProvider[]?   | The platform level providers for the current render request                |
 | `cache`          | boolean? \| object? | Cache options, description below (default: `true`)                         |
+| `errorHandler`   | Function?           | Callback to be called in case of a rendering error                         |
 
 ### Cache
 
