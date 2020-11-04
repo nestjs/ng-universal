@@ -1,4 +1,3 @@
-export { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 export * from './angular-universal.module';
 export * from './cache/cahce-key-by-original-url.generator';
 export * from './cache/in-memory-cache.storage';
