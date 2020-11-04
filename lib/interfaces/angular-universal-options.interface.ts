@@ -36,6 +36,14 @@ export interface AngularUniversalOptions {
         keyGenerator?: CacheKeyGenerator;
       };
   /**
+   * Callback to be called in case of a rendering error.
+   */
+  errorHandler?: (params: {
+    err?: Error;
+    html?: string;
+    renderCallback: (err: any, content: string) => void;
+  }) => void;
+  /**
    * Module to bootstrap
    */
   bootstrap: any;
