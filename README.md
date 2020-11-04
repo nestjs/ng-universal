@@ -60,8 +60,8 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
     AngularUniversalModule.forRoot({
       bootstrap: AppServerModule,
       viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser')
-    }),
-  ],
+    })
+  ]
 })
 export class ApplicationModule {}
 ```
@@ -70,23 +70,23 @@ export class ApplicationModule {}
 
 The `forRoot()` method takes an options object with a few useful properties.
 
-| Property        | Type           | Description  |
-| ------------- | ------------- | ----- |
-| `viewsPath`      | string | The directory where the module should look for client bundle (Angular app) |
-| `bootstrap`      | Function      |   Angular server module reference (`AppServerModule`). |
-| `templatePath` | string?      | Path to index file (default: `{viewsPaths}/index.html`) |
-| `rootStaticPath` | string?    | Static files root directory (default: `*.*`) |
-| `renderPath` | string?    | Path to render Angular app (default: `*`) |
-| `extraProviders` | StaticProvider[]?    | The platform level providers for the current render request |
-| `cache` | boolean? \| object?    | Cache options, description below (default: `true`) |
+| Property         | Type                | Description                                                                |
+| ---------------- | ------------------- | -------------------------------------------------------------------------- |
+| `viewsPath`      | string              | The directory where the module should look for client bundle (Angular app) |
+| `bootstrap`      | Function            | Angular server module reference (`AppServerModule`).                       |
+| `templatePath`   | string?             | Path to index file (default: `{viewsPaths}/index.html`)                    |
+| `rootStaticPath` | string?             | Static files root directory (default: `*.*`)                               |
+| `renderPath`     | string?             | Path to render Angular app (default: `*`)                                  |
+| `extraProviders` | StaticProvider[]?   | The platform level providers for the current render request                |
+| `cache`          | boolean? \| object? | Cache options, description below (default: `true`)                         |
 
 ### Cache
 
-| Property        | Type           | Description  |
-| ------------- | ------------- | ----- |
-| `expiresIn`      | number? | Cache expiration in milliseconds (default: `60000`) |
-| `storage`      | CacheStorage?      | Interface for implementing custom cache storage (default: in memory) |
-| `keyGenerator` | CacheKeyGenerator?      | Interface for implementing custom cache key generation logic (default: by url) |
+| Property       | Type               | Description                                                                    |
+| -------------- | ------------------ | ------------------------------------------------------------------------------ |
+| `expiresIn`    | number?            | Cache expiration in milliseconds (default: `60000`)                            |
+| `storage`      | CacheStorage?      | Interface for implementing custom cache storage (default: in memory)           |
+| `keyGenerator` | CacheKeyGenerator? | Interface for implementing custom cache key generation logic (default: by url) |
 
 ```typescript
 AngularUniversalModule.forRoot({
@@ -95,9 +95,9 @@ AngularUniversalModule.forRoot({
   cache: {
     storage: new InMemoryCacheStorage(),
     expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
-    keyGenerator: new CustomCacheKeyGenerator(),
+    keyGenerator: new CustomCacheKeyGenerator()
   }
-})
+});
 ```
 
 ### Example for CacheKeyGenerator:
@@ -114,7 +114,7 @@ export class CustomCacheKeyGenerator implements CacheKeyGenerator {
 
 ## Request and Response Providers
 
-This tool uses `@nguniversal/express-engine` and will properly provide access to the Express Request and Response objects in you Angular components.
+This tool uses `@nguniversal/express-engine` and will properly provide access to the Express Request and Response objects in you Angular components. Note that tokens must be imported from the `@nestjs/ng-universal` package, not `@nguniversal/express-engine`.
 
 This is useful for things like setting the response code to 404 when your Angular router can't find a page (i.e. `path: '**'` in routing):
 
@@ -122,12 +122,12 @@ This is useful for things like setting the response code to 404 when your Angula
 import { Response } from 'express';
 import { Component, Inject, Optional, PLATFORM_ID } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
-import { RESPONSE } from '@nguniversal/express-engine/tokens';
+import { RESPONSE } from '@nestjs/ng-universal';
 
 @Component({
   selector: 'my-not-found',
   templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss'],
+  styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent {
   constructor(
@@ -135,7 +135,7 @@ export class NotFoundComponent {
     private readonly platformId: any,
     @Optional()
     @Inject(RESPONSE)
-    res: Response,
+    res: Response
   ) {
     // `res` is the express response, only available on the server
     if (isPlatformServer(this.platformId)) {
@@ -151,9 +151,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-* Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-* Website - [https://nestjs.com](https://nestjs.com/)
-* Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
