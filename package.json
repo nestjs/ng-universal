@@ -33,7 +33,7 @@
     "@types/memory-cache": "0.2.1",
     "@types/node": "13.13.5",
     "express": "4.17.1",
-    "husky": "4.3.0",
+    "husky": "4.3.5",
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",
     "ts-morph": "9.1.0",
