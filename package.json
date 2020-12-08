@@ -44,7 +44,7 @@
     "@angular-devkit/schematics": "11.0.3",
     "@schematics/angular": "11.0.3",
     "@nguniversal/common": "10.1.0",
-    "@nguniversal/express-engine": "11.0.0",
+    "@nguniversal/express-engine": "11.0.1",
     "memory-cache": "0.2.0"
   },
   "schematics": "./schematics/collection.json",
