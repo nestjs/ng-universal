@@ -28,6 +28,8 @@
   "devDependencies": {
     "@angular/common": "11.0.4",
     "@angular/platform-server": "11.0.4",
+    "@commitlint/cli": "11.0.0",
+    "@commitlint/config-angular": "11.0.0",
     "@nestjs/common": "7.5.5",
     "@nestjs/core": "7.5.5",
     "@types/memory-cache": "0.2.1",
@@ -50,8 +52,13 @@
   "schematics": "./schematics/collection.json",
   "lint-staged": {
     "*.ts": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
+    }
   }
 }
