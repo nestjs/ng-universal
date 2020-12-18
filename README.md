@@ -94,7 +94,11 @@ AngularUniversalModule.forRoot({
   bootstrap: AppServerModule,
   viewsPath: join(process.cwd(), 'dist/{APP_NAME}/browser'),
   cache: {
-    storage: new InMemoryCacheStorage(),
+    storage: {
+      useValue: new InMemoryCacheStorage(),
+      // or
+      // useClass: HtmlCacheStorage,
+    },
     expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
     keyGenerator: new CustomCacheKeyGenerator()
   }

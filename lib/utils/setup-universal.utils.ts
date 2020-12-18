@@ -1,8 +1,8 @@
-import { ngExpressEngine }                from '@nguniversal/express-engine';
-import * as express                       from 'express';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import * as express from 'express';
 import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
-import { AngularUniversalOptions }        from '../interfaces/angular-universal-options.interface';
-import { CacheStorage }                   from '../interfaces/cache-storage.interface';
+import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
+import { CacheStorage } from '../interfaces/cache-storage.interface';
 
 const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
 
