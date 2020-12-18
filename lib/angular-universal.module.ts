@@ -41,8 +41,8 @@ export class AngularUniversalModule implements OnModuleInit {
         },
         {
           provide: ANGULAR_UNIVERSAL_CACHE,
-          ...((options?.cache as CacheOptions)?.storage)
-          || { useValue: new InMemoryCacheStorage() }
+          ...((options?.cache as CacheOptions)?.storage
+          || { useValue: new InMemoryCacheStorage() })
         }
       ]
     };

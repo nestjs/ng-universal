@@ -97,7 +97,7 @@ AngularUniversalModule.forRoot({
     storage: {
       useValue: new InMemoryCacheStorage(),
       // or
-      // useClass: HtmlCacheStorage,
+      // useClass: RedisCacheStorage,
     },
     expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
     keyGenerator: new CustomCacheKeyGenerator()
