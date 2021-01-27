@@ -1,5 +1,10 @@
-import { CacheStorage } from './cache-storage.interface';
-import { CacheKeyGenerator } from './cache-key-generator.interface';
+import { AngularUniversalStorageProvider, CacheKeyGenerator } from './cache-key-generator.interface';
+
+export interface CacheOptions {
+  expiresIn?: number;
+  storage?: AngularUniversalStorageProvider;
+  keyGenerator?: CacheKeyGenerator;
+}
 
 export interface AngularUniversalOptions {
   /**
@@ -30,11 +35,7 @@ export interface AngularUniversalOptions {
    */
   cache?:
     | boolean
-    | {
-        expiresIn?: number;
-        storage?: CacheStorage;
-        keyGenerator?: CacheKeyGenerator;
-      };
+    | CacheOptions;
   /**
    * Callback to be called in case of a rendering error.
    */
