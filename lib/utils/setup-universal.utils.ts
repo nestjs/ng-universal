@@ -1,6 +1,6 @@
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import { CacheKeyByOriginalUrlGenerator } from '../cache/cahce-key-by-original-url.generator';
+import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
 import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
 
@@ -33,7 +33,7 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
       if (err && ngOptions.errorHandler) {
         return ngOptions.errorHandler({ err, html, renderCallback: callback });
       }
-      
+
       if (err) {
         console.error(err);
         return callback(err);
