@@ -26,6 +26,8 @@
     "zone.js": "^0.10.0 || ^0.11.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "11.0.0",
+    "@commitlint/config-angular": "11.0.0",
     "@angular/common": "11.1.0",
     "@angular/platform-server": "11.1.0",
     "@nestjs/common": "7.6.6",
@@ -50,8 +52,13 @@
   "schematics": "./schematics/collection.json",
   "lint-staged": {
     "*.ts": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
+    }
   }
 }
