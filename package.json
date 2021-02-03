@@ -28,8 +28,8 @@
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-angular": "11.0.0",
-    "@angular/common": "11.1.1",
-    "@angular/platform-server": "11.1.1",
+    "@angular/common": "11.1.2",
+    "@angular/platform-server": "11.1.2",
     "@nestjs/common": "7.6.11",
     "@nestjs/core": "7.6.11",
     "@types/memory-cache": "0.2.1",
