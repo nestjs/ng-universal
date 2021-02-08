@@ -45,7 +45,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "11.1.4",
     "@schematics/angular": "11.1.4",
-    "@nguniversal/common": "11.0.1",
+    "@nguniversal/common": "11.1.2",
     "@nguniversal/express-engine": "11.1.2",
     "memory-cache": "0.2.0"
   },
