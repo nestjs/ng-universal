@@ -50,7 +50,7 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   app.set('views', ngOptions.viewsPath);
 
   // Serve static files
-  app.get(
+  app.use(
     ngOptions.rootStaticPath,
     express.static(ngOptions.viewsPath, {
       maxAge: 600
