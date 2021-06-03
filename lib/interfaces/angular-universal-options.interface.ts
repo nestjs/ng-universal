@@ -20,7 +20,7 @@ export interface AngularUniversalOptions {
    * Path to render Angular app.
    * Default: * (wildcard - all paths)
    */
-  renderPath?: string;
+  renderPath?: string | RegExp;
   /**
    * The platform level providers for the current render request.
    */
