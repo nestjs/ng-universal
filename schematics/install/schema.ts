@@ -1,16 +1,8 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 export interface Schema {
   /**
    * Name or index of related client app.
    */
-  clientProject: string;
+  project: string;
   /**
    * The appId to use withServerTransition.
    */
@@ -27,10 +19,6 @@ export interface Schema {
    * The port for the Express server.
    */
   serverPort?: number;
-  /**
-   * The name of the TypeScript configuration file.
-   */
-  tsconfigFileName?: string;
   /**
    * The name of the application directory.
    */

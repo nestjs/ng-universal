@@ -3,10 +3,19 @@ lib
 index.ts
 package-lock.json
 tslint.json
+renovate.json
+.commitlintrc.json
+CONTRIBUTING.md
+tsconfig.json
+tsconfig.schematics.json
 .prettierrc
+jest.config.js
 
 # schematics
 schematics/install/*.ts
+schematics/install/tests
 
 # misc
 .DS_Store
+.circleci
+.github
