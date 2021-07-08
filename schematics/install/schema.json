@@ -1,12 +1,12 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsNestEngineInstall",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "SchematicsNestEngineInstall",
   "title": "Nest Engine Install Options Schema",
   "type": "object",
   "properties": {
-    "clientProject": {
+    "project": {
       "type": "string",
-      "description": "Name of related client app.",
+      "description": "The name of the project.",
       "$default": {
         "$source": "projectName"
       }
@@ -33,11 +33,6 @@
       "default": 4000,
       "description": "The port for the Express server."
     },
-    "tsconfigFileName": {
-      "type": "string",
-      "default": "tsconfig.server",
-      "description": "The name of the TypeScript configuration file."
-    },
     "appDir": {
       "type": "string",
       "format": "path",
@@ -61,6 +56,6 @@
       "default": false
     }
   },
-  "required": ["clientProject"],
+  "required": ["project"],
   "additionalProperties": false
 }
