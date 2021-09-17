@@ -78,6 +78,7 @@ The `forRoot()` method takes an options object with a few useful properties.
 | `rootStaticPath` | string?             | Static files root directory (default: `*.*`)                               |
 | `renderPath`     | string?             | Path to render Angular app (default: `*`)                                  |
 | `extraProviders` | StaticProvider[]?   | The platform level providers for the current render request                |
+| `inlineCriticalCss` | boolean?         | Reduce render blocking requests by inlining critical CSS. (default: true)  |
 | `cache`          | boolean? \| object? | Cache options, description below (default: `true`)                         |
 | `errorHandler`   | Function?           | Callback to be called in case of a rendering error                         |
 
