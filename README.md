@@ -147,6 +147,79 @@ export class NotFoundComponent {
 }
 ```
 
+## Custom Webpack
+
+In some situations, it may be required to customize the `webpack` build while using `@nestjs/ng-universal`, especially when additional dependencies are include which include native NodeJS code.
+
+To add a customizable `webpack` config to your project, it is recommended to install [@angular-builders/custom-webpack](https://www.npmjs.com/package/@angular-builders/custom-webpack) in the project and to set your builders appropriately.
+
+### Example Custom Webpack
+```typescript
+// webpack.config.ts
+import { Configuration, IgnorePlugin } from 'webpack'
+import {
+  CustomWebpackBrowserSchema,
+  TargetOptions
+} from '@angular-builders/custom-webpack'
+import nodeExternals from 'webpack-node-externals'
+
+export default (
+  config: Configuration
+  _options: CustomWebpackBrowserSchema,
+  targetOptions: TargetOptions
+) => {
+  if (targetOptions.target === 'server') {
+    config.resolve?.extensions?.push('.mjs', '.graphql', '.gql')
+
+    config.module?.rules?.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto'
+    });
+
+    config.externalsPresets = { node: true }
+
+    (config.externals as Array<any>).push(
+      nodeExternals({ allowlist: [/^(?!(livereload|concurrently|fsevents)).*/]})
+    );
+
+    config.plugins?.push(
+      new IgnorePlugin({
+        checkResource: (resource: string) => {
+          const lazyImports = [
+            '@nestjs/microservices',
+            '@nestjs/microservices/microservices-module',
+            '@nestjs/websockets/socket-module',
+            'cache-manager',
+            'class-validator',
+            'class-transform',
+            'apollo-server-fastify',
+            'bufferutil',
+            'utf-8-validate',
+            'graphql-ws',
+            'ws',
+            'ts-morph'
+          ];
+
+          if (!lazyImpots.includes(resource)) {
+            return false;
+          }
+
+          try {
+            require.resolve(resource)
+          } catch (_err: any) {
+            return true;
+          }
+          return false;
+        }
+      })
+    );
+  }
+  return config;
+};
+
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
