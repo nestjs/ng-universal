@@ -25,6 +25,11 @@ export interface AngularUniversalOptions {
    * The platform level providers for the current render request.
    */
   extraProviders?: any[];
+   /**
+   * Reduce render blocking requests by inlining critical CSS.
+   * Default: true.
+   */
+  inlineCriticalCss?: boolean;
   /**
    * Cache options (flag or configuration object)
    */

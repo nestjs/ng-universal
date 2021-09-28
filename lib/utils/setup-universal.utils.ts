@@ -22,6 +22,7 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
 
     ngExpressEngine({
       bootstrap: ngOptions.bootstrap,
+      inlineCriticalCss: ngOptions.inlineCriticalCss,
       providers: [
         {
           provide: 'serverUrl',
