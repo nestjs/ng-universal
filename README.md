@@ -149,7 +149,7 @@ export class NotFoundComponent {
 
 ## Custom Webpack
 
-In some situations, it may be required to customize the `webpack` build while using `@nestjs/ng-universal`, especially when additional dependencies are include which include native NodeJS code.
+In some situations, it may be required to customize the `webpack` build while using `@nestjs/ng-universal`, especially when additional dependencies are included (that rely on native Node.js code).
 
 To add a customizable `webpack` config to your project, it is recommended to install [@angular-builders/custom-webpack](https://www.npmjs.com/package/@angular-builders/custom-webpack) in the project and to set your builders appropriately.
 
