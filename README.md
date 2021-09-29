@@ -193,12 +193,6 @@ export default (
             'cache-manager',
             'class-validator',
             'class-transform',
-            'apollo-server-fastify',
-            'bufferutil',
-            'utf-8-validate',
-            'graphql-ws',
-            'ws',
-            'ts-morph'
           ];
 
           if (!lazyImpots.includes(resource)) {
