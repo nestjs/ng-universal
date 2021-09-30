@@ -50,7 +50,7 @@
     "@angular-devkit/schematics": "12.2.7",
     "@schematics/angular": "12.2.7",
     "@nguniversal/common": "12.1.0",
-    "@nguniversal/express-engine": "12.1.0",
+    "@nguniversal/express-engine": "12.1.1",
     "memory-cache": "0.2.0"
   },
   "schematics": "./schematics/collection.json",
