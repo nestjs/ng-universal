@@ -29,12 +29,12 @@ function addDependenciesAndScripts(): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/common',
-      version: '^7.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/core',
-      version: '^7.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
@@ -44,27 +44,22 @@ function addDependenciesAndScripts(): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: 'class-transformer',
-      version: '^0.2.3'
+      version: '^0.4.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: 'class-validator',
-      version: '^0.9.1'
+      version: '^0.13.1'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/platform-express',
-      version: '^7.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/ng-universal',
-      version: '^4.0.0'
-    });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Default,
-      name: '@nguniversal/express-engine',
-      version: '^12.0.0'
+      version: '^5.0.0'
     });
 
     const pkgPath = '/package.json';
