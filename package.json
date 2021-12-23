@@ -35,7 +35,7 @@
     "@nestjs/core": "8.2.4",
     "@types/jest": "27.0.3",
     "@types/memory-cache": "0.2.1",
-    "@types/node": "16.11.16",
+    "@types/node": "16.11.17",
     "express": "4.17.2",
     "husky": "7.0.4",
     "jest": "27.4.5",
