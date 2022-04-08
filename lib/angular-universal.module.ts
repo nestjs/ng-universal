@@ -36,7 +36,8 @@ export class AngularUniversalModule implements OnModuleInit {
         {
           provide: ANGULAR_UNIVERSAL_OPTIONS,
           useValue: options
-        }
+        },
+        HttpAdapterHost
       ]
     };
   }
