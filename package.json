@@ -30,12 +30,9 @@
   },
   "devDependencies": {
     "@angular/common": "13.2.1",
-<<<<<<< HEAD
-=======
     "@angular/compiler": "13.2.1",
     "@angular/core": "13.2.1",
     "@angular/platform-browser": "13.2.1",
->>>>>>> 3bf3fd4 (fix(@nestjs/ng-universal) Adding `@angular` devDependencies for local development. Adding)
     "@angular/platform-server": "13.2.1",
     "@commitlint/cli": "16.1.0",
     "@commitlint/config-angular": "16.0.0",
