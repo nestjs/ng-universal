@@ -1,27 +1,36 @@
-import { readFileSync } from 'fs';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { PathOrFileDescriptor, readFileSync } from 'fs';
+import { default as domino } from 'domino';
 
-const domino = require('domino');
-
-export function applyDomino(global, templatePath) {
+export const applyDomino = (
+  global: {
+    window: Window;
+    document: Document;
+    navigator: Navigator;
+    CSS: null;
+    Prism: null;
+  },
+  templatePath: PathOrFileDescriptor
+) => {
   const template = readFileSync(templatePath).toString();
-  const win = domino.createWindow(template);
+  const win: Window = domino.createWindow(template);
 
-  global['window'] = win;
+  global.window = win;
   Object.defineProperty(
     win.document.body.style,
     'transform',
-    createTransformOptions(),
+    createTransformOptions()
   );
-  global['document'] = win.document;
-  global['navigator'] = win.navigator;
-  global['CSS'] = null;
-  global['Prism'] = null;
-}
+  global.document = win.document;
+  global.navigator = win.navigator;
+  global.CSS = null;
+  global.Prism = null;
+};
 
-export function createTransformOptions() {
+export const createTransformOptions = () => {
   const value = () => ({
     enumerable: true,
-    configurable: true,
+    configurable: true
   });
   return { value };
-}
+};
