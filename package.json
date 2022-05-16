@@ -49,7 +49,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "13.0.2",
     "@schematics/angular": "13.0.2",
-    "@nguniversal/common": "13.0.1",
+    "@nguniversal/common": "13.1.1",
     "@nguniversal/express-engine": "13.0.1",
     "memory-cache": "0.2.0"
   },
