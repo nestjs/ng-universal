@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
@@ -5,6 +6,8 @@ import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
 import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
 
 const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
+
+const logger = new Logger('AngularUniversalModule');
 
 export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   try {
@@ -36,10 +39,10 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
           return ngOptions.errorHandler({ err, html, renderCallback: callback });
         }
 
-        if (err) {
-          console.error(err);
-          return callback(err);
-        }
+      if (err) {
+        logger.error(err);
+        return callback(err);
+      }
 
         if (cacheOptions.isEnabled && cacheKey) {
           cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
