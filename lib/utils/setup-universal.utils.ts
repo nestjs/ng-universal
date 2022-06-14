@@ -1,4 +1,4 @@
-import { StaticProvider } from '@angular/core';
+import { Logger } from '@nestjs/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import {
   default as express,
@@ -11,10 +11,9 @@ import { AngularUniversalOptions } from '../interfaces/angular-universal-options
 
 const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
 
-export const setupUniversal = (
-  app: ExpressApplication,
-  ngOptions: AngularUniversalOptions
-) => {
+const logger = new Logger('AngularUniversalModule');
+
+export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   const cacheOptions = getCacheOptions(ngOptions);
 
   app.engine(
@@ -54,10 +53,10 @@ export const setupUniversal = (
           });
         }
 
-        if (err) {
-          console.error(err);
-          return callback(err);
-        }
+      if (err) {
+        logger.error(err);
+        return callback(err);
+      }
 
         if (cacheOptions.isEnabled && cacheKey) {
           cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
