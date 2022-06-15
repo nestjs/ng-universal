@@ -27,8 +27,8 @@
     "zone.js": "^0.11.0"
   },
   "devDependencies": {
-    "@angular/common": "14.0.1",
-    "@angular/platform-server": "14.0.1",
+    "@angular/common": "14.0.2",
+    "@angular/platform-server": "14.0.2",
     "@commitlint/cli": "17.0.2",
     "@commitlint/config-angular": "17.0.0",
     "@nestjs/common": "8.4.7",
@@ -46,7 +46,7 @@
     "ts-jest": "27.1.5",
     "ts-morph": "15.1.0",
     "typescript": "4.7.3",
-    "zone.js": "0.11.5"
+    "zone.js": "0.11.6"
   },
   "dependencies": {
     "@angular-devkit/schematics": "14.0.1",
