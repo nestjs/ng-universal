@@ -1,6 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
-import * as express from 'express';
+import {
+  default as express,
+  Application as ExpressApplication,
+  Request
+} from 'express';
 import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
 import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
@@ -12,43 +16,55 @@ const logger = new Logger('AngularUniversalModule');
 export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   const cacheOptions = getCacheOptions(ngOptions);
 
-  app.engine('html', (_, options, callback) => {
-    let cacheKey;
-    if (cacheOptions.isEnabled) {
-      const cacheKeyGenerator = cacheOptions.keyGenerator;
-      cacheKey = cacheKeyGenerator.generateCacheKey(options.req);
-      const cacheHtml = cacheOptions.storage.get(cacheKey);
-      if (cacheHtml) {
-        return callback(null, cacheHtml);
+  app.engine(
+    'html',
+    (
+      _: string,
+      options: { req: Request },
+      callback: (err: Error, html?: string) => void
+    ) => {
+      let cacheKey: string;
+      if (cacheOptions.isEnabled) {
+        const cacheKeyGenerator = cacheOptions.keyGenerator;
+        cacheKey = cacheKeyGenerator.generateCacheKey(options.req);
+        const cacheHtml = cacheOptions.storage.get(cacheKey);
+        if (cacheHtml) {
+          return callback(null, cacheHtml);
+        }
       }
-    }
 
-    ngExpressEngine({
-      bootstrap: ngOptions.bootstrap,
-      inlineCriticalCss: ngOptions.inlineCriticalCss,
-      providers: [
-        {
-          provide: 'serverUrl',
-          useValue: `${options.req.protocol}://${options.req.get('host')}`
-        },
-        ...(ngOptions.extraProviders || [])
-      ]
-    })(_, options, (err, html) => {
-      if (err && ngOptions.errorHandler) {
-        return ngOptions.errorHandler({ err, html, renderCallback: callback });
-      }
+      ngExpressEngine({
+        bootstrap: ngOptions.bootstrap,
+        inlineCriticalCss: ngOptions.inlineCriticalCss,
+        providers: [
+          {
+            provide: 'serverUrl',
+            useValue: `${options.req.protocol}://${options.req.get('host')}`
+          },
+          /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
+          ...(ngOptions.extraProviders || [])
+        ] as StaticProvider[]
+      })(_, options, (err, html) => {
+        if (err && ngOptions.errorHandler) {
+          return ngOptions.errorHandler({
+            err,
+            html,
+            renderCallback: callback
+          });
+        }
 
       if (err) {
         logger.error(err);
         return callback(err);
       }
 
-      if (cacheOptions.isEnabled && cacheKey) {
-        cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
-      }
-      callback(null, html);
-    });
-  });
+        if (cacheOptions.isEnabled && cacheKey) {
+          cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
+        }
+        callback(null, html);
+      });
+    }
+  );
 
   app.set('view engine', 'html');
   app.set('views', ngOptions.viewsPath);
@@ -60,9 +76,9 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
       maxAge: 600
     })
   );
-}
+};
 
-export function getCacheOptions(ngOptions: AngularUniversalOptions) {
+export const getCacheOptions = (ngOptions: AngularUniversalOptions) => {
   if (!ngOptions.cache) {
     return {
       isEnabled: false
@@ -83,4 +99,4 @@ export function getCacheOptions(ngOptions: AngularUniversalOptions) {
     keyGenerator:
       ngOptions.cache.keyGenerator || new CacheKeyByOriginalUrlGenerator()
   };
-}
+};

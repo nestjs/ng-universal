@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { CacheStorage } from './cache-storage.interface';
 import { CacheKeyGenerator } from './cache-key-generator.interface';
 
@@ -25,7 +26,7 @@ export interface AngularUniversalOptions {
    * The platform level providers for the current render request.
    */
   extraProviders?: any[];
-   /**
+  /**
    * Reduce render blocking requests by inlining critical CSS.
    * Default: true.
    */
@@ -51,5 +52,5 @@ export interface AngularUniversalOptions {
   /**
    * Module to bootstrap
    */
-  bootstrap: any;
+  bootstrap: Type<{}>;
 }

@@ -1,7 +1,7 @@
 import { CacheKeyGenerator } from '../interfaces/cache-key-generator.interface';
 
 export class CacheKeyByOriginalUrlGenerator implements CacheKeyGenerator {
-  generateCacheKey(request: any): string {
+  generateCacheKey(request: { originalUrl: string }): string {
     return request.originalUrl;
   }
 }

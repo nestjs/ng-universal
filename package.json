@@ -13,7 +13,8 @@
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "prepublish:next": "npm run build",
-    "publish:next": "npm publish --access public --tag next"
+    "publish:next": "npm publish --access public --tag next",
+    "lint": "eslint lib/**/*.ts"
   },
   "peerDependencies": {
     "@angular/common": "^12.0.0 || ^13.0.0 || ^14.0.0",
@@ -58,6 +59,7 @@
   "schematics": "./schematics/collection.json",
   "lint-staged": {
     "*.ts": [
+      "eslint ./lib --fix",
       "prettier --write"
     ]
   },

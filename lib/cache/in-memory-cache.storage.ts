@@ -7,6 +7,6 @@ export class InMemoryCacheStorage implements CacheStorage {
   }
 
   get(key: string): string {
-    return cache.get(key);
+    return cache.get(key) as string;
   }
 }
