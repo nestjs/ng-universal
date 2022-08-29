@@ -29,7 +29,7 @@
   "devDependencies": {
     "@angular/common": "14.2.0",
     "@angular/platform-server": "14.2.0",
-    "@commitlint/cli": "17.1.1",
+    "@commitlint/cli": "17.1.2",
     "@commitlint/config-angular": "17.1.0",
     "@nestjs/common": "8.4.7",
     "@nestjs/core": "8.4.7",
