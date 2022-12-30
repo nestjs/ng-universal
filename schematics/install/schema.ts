@@ -20,10 +20,6 @@ export interface Schema {
    */
   serverPort?: number;
   /**
-   * The name of the application directory.
-   */
-  appDir?: string;
-  /**
    * The name of the root module file
    */
   rootModuleFileName?: string;
