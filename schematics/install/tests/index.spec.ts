@@ -1,12 +1,20 @@
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree
 } from '@angular-devkit/schematics/testing';
-import { getFileContent } from '@schematics/angular/utility/test';
+
+const collectionPath = require.resolve('../../collection.json');
 
 import { Schema as NgAddOptions } from '../schema';
 
-const collectionPath = require.resolve('../../collection.json');
+function getFileContent(tree: Tree, path: string) {
+  const fileEntry = tree.get(path);
+  if (!fileEntry) {
+    throw new Error(`The file (${path}) does not exist.`);
+  }
+  return fileEntry.content.toString();
+}
 
 async function createWorkspace(appOptions: object = {}) {
   const testRunner = new SchematicTestRunner(
@@ -14,25 +22,25 @@ async function createWorkspace(appOptions: object = {}) {
     collectionPath
   );
 
-  const tree = await testRunner
-    .runExternalSchematicAsync('@schematics/angular', 'workspace', {
+  const tree = await testRunner.runExternalSchematic(
+    '@schematics/angular',
+    'workspace',
+    {
       name: 'ng-universal-workspace',
       newProjectRoot: 'projects',
       version: '15.0.4'
-    })
-    .toPromise();
+    }
+  );
 
-  return await testRunner
-    .runExternalSchematicAsync(
-      '@schematics/angular',
-      'application',
-      {
-        ...appOptions,
-        name: 'ng-universal-app'
-      },
-      tree
-    )
-    .toPromise();
+  return await testRunner.runExternalSchematic(
+    '@schematics/angular',
+    'application',
+    {
+      ...appOptions,
+      name: 'ng-universal-app'
+    },
+    tree
+  );
 }
 
 describe('ng-add', () => {
@@ -49,9 +57,11 @@ describe('ng-add', () => {
 
   it('should run ng-add without exceptions', async () => {
     // Arrange & act
-    tree = await schematicRunner
-      .runSchematicAsync<NgAddOptions>('ng-add', appOptions, tree)
-      .toPromise();
+    tree = await schematicRunner.runSchematic<NgAddOptions>(
+      'ng-add',
+      appOptions,
+      tree
+    );
 
     // Assert
     expect(tree.files).toBeDefined();
@@ -59,9 +69,11 @@ describe('ng-add', () => {
 
   it('should add server.ts, main.ts and app.module.ts files', async () => {
     // Arrange & act
-    tree = await schematicRunner
-      .runSchematicAsync<NgAddOptions>('ng-add', appOptions, tree)
-      .toPromise();
+    tree = await schematicRunner.runSchematic<NgAddOptions>(
+      'ng-add',
+      appOptions,
+      tree
+    );
 
     const server = getFileContent(tree, '/server.ts');
     const main = getFileContent(tree, '/server/main.ts');
@@ -77,9 +89,11 @@ describe('ng-add', () => {
 
   it('should install dependencies', async () => {
     // Arrange & act
-    tree = await schematicRunner
-      .runSchematicAsync<NgAddOptions>('ng-add', appOptions, tree)
-      .toPromise();
+    tree = await schematicRunner.runSchematic<NgAddOptions>(
+      'ng-add',
+      appOptions,
+      tree
+    );
 
     const dependencies = Object.keys(
       JSON.parse(getFileContent(tree, '/package.json')).dependencies
@@ -102,9 +116,11 @@ describe('ng-add', () => {
 
   it('should add externalDependencies and disable optimization for the server target', async () => {
     // Arrange & act
-    tree = await schematicRunner
-      .runSchematicAsync<NgAddOptions>('ng-add', appOptions, tree)
-      .toPromise();
+    tree = await schematicRunner.runSchematic<NgAddOptions>(
+      'ng-add',
+      appOptions,
+      tree
+    );
 
     const { projects } = JSON.parse(getFileContent(tree, '/angular.json'));
     const { server } = projects[appOptions.project].architect;
