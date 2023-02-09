@@ -33,7 +33,7 @@
     "@commitlint/config-angular": "17.2.0",
     "@nestjs/common": "9.2.1",
     "@nestjs/core": "9.2.1",
-    "@nguniversal/common": "15.0.0",
+    "@nguniversal/common": "15.1.0",
     "@nguniversal/express-engine": "15.0.0",
     "@types/jest": "27.5.2",
     "@types/memory-cache": "0.2.2",
@@ -51,7 +51,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "15.0.4",
     "@schematics/angular": "15.0.4",
-    "@nguniversal/common": "15.0.0",
+    "@nguniversal/common": "15.1.0",
     "@nguniversal/express-engine": "15.0.0",
     "memory-cache": "0.2.0"
   },
