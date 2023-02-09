@@ -18,7 +18,7 @@ async function createWorkspace(appOptions: object = {}) {
     .runExternalSchematicAsync('@schematics/angular', 'workspace', {
       name: 'ng-universal-workspace',
       newProjectRoot: 'projects',
-      version: '12.0.0'
+      version: '15.0.4'
     })
     .toPromise();
 
