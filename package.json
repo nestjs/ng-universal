@@ -29,8 +29,8 @@
   "devDependencies": {
     "@angular/common": "15.1.5",
     "@angular/platform-server": "15.1.5",
-    "@commitlint/cli": "17.4.3",
-    "@commitlint/config-angular": "17.4.3",
+    "@commitlint/cli": "17.4.4",
+    "@commitlint/config-angular": "17.4.4",
     "@nestjs/common": "9.3.9",
     "@nestjs/core": "9.3.9",
     "@nguniversal/common": "15.1.0",
