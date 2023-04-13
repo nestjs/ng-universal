@@ -34,7 +34,7 @@
     "@nestjs/common": "9.4.0",
     "@nestjs/core": "9.4.0",
     "@nguniversal/common": "15.1.0",
-    "@nguniversal/express-engine": "15.0.0",
+    "@nguniversal/express-engine": "15.2.1",
     "@types/jest": "27.5.2",
     "@types/memory-cache": "0.2.2",
     "@types/node": "18.15.11",
@@ -51,7 +51,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "15.1.5",
     "@nguniversal/common": "15.1.0",
-    "@nguniversal/express-engine": "15.0.0",
+    "@nguniversal/express-engine": "15.2.1",
     "@schematics/angular": "15.1.5",
     "memory-cache": "0.2.0"
   },
