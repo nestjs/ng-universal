@@ -28,7 +28,7 @@ async function createWorkspace(appOptions: object = {}) {
     {
       name: 'ng-universal-workspace',
       newProjectRoot: 'projects',
-      version: '15.0.4'
+      version: '16.0.0'
     }
   );
 
