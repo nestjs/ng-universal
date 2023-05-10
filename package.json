@@ -16,8 +16,8 @@
     "publish:next": "npm publish --access public --tag next"
   },
   "peerDependencies": {
-    "@angular/common": "^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0",
-    "@angular/platform-server": "^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0",
+    "@angular/common": "^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
+    "@angular/platform-server": "^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
@@ -27,8 +27,8 @@
     "zone.js": "^0.11.0 || ^0.12.0"
   },
   "devDependencies": {
-    "@angular/common": "15.2.1",
-    "@angular/platform-server": "15.2.1",
+    "@angular/common": "16.0.1",
+    "@angular/platform-server": "16.0.1",
     "@commitlint/cli": "17.6.1",
     "@commitlint/config-angular": "17.6.1",
     "@nestjs/common": "9.4.0",
