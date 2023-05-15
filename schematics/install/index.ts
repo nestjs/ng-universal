@@ -64,7 +64,7 @@ function addDependenciesAndScripts(): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nguniversal/express-engine',
-      version: '^15.0.0'
+      version: '^16.0.0'
     });
 
     const pkgPath = '/package.json';
