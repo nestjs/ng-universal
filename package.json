@@ -27,8 +27,8 @@
     "zone.js": "^0.11.0 || ^0.12.0 || ^0.13.0"
   },
   "devDependencies": {
-    "@angular/common": "16.0.4",
-    "@angular/platform-server": "16.0.4",
+    "@angular/common": "16.0.5",
+    "@angular/platform-server": "16.0.5",
     "@commitlint/cli": "17.6.5",
     "@commitlint/config-angular": "17.6.5",
     "@nestjs/common": "9.4.2",
