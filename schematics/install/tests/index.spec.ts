@@ -81,7 +81,7 @@ describe('ng-add', () => {
 
     // Assert
     expect(server).toContain("import 'zone.js/node'");
-    expect(main).toContain('await app.listen(process.env.PORT || 4000)');
+    expect(main).toContain('await app.listen(process.env[\'PORT\'] || 4000)');
     expect(appModule).toContain(
       "viewsPath: join(process.cwd(), 'dist/ng-universal-app/browser')"
     );
