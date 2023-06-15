@@ -14,13 +14,13 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { getOutputPath } from '@nguniversal/express-engine/schematics/utils';
 import {
   addPackageJsonDependency,
   NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
 import { updateWorkspace } from '@schematics/angular/utility/workspace';
 import { Schema as UniversalOptions } from './schema';
+import { getOutputPath } from './utils';
 
 const SERVER_DIST = 'dist/server';
 
