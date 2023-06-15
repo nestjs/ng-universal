@@ -29,12 +29,12 @@ function addDependenciesAndScripts(): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/common',
-      version: '^9.0.0'
+      version: '^10.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/core',
-      version: '^9.0.0'
+      version: '^10.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
@@ -44,22 +44,22 @@ function addDependenciesAndScripts(): Rule {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: 'class-transformer',
-      version: '^0.4.0'
+      version: '^0.5.1'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: 'class-validator',
-      version: '^0.13.1'
+      version: '^0.14.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/platform-express',
-      version: '^9.0.0'
+      version: '^10.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
       name: '@nestjs/ng-universal',
-      version: '^6.0.0'
+      version: '^8.0.0'
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
