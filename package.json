@@ -34,7 +34,7 @@
     "@nestjs/common": "10.0.3",
     "@nestjs/core": "10.0.3",
     "@nguniversal/common": "16.1.1",
-    "@nguniversal/express-engine": "16.1.0",
+    "@nguniversal/express-engine": "16.1.1",
     "@types/jest": "29.5.2",
     "@types/memory-cache": "0.2.3",
     "@types/node": "18.16.18",
