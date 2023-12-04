@@ -1,5 +1,5 @@
 /**
- * Copied from @nguniversal/express-engine/schematics/utils.ts
+ * Copied from angular/universal/express-engine/schematics/utils.ts
  * because Jest was unable to resolve the module(?) when running tests.
  * @ref https://github.com/angular/universal/blob/e1c5336536b985461d49dd5cea457aecac4be1bc/modules/express-engine/schematics/utils/utils.ts
  */

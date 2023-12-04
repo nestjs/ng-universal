@@ -28,7 +28,7 @@ async function createWorkspace(appOptions: object = {}) {
     {
       name: 'ng-universal-workspace',
       newProjectRoot: 'projects',
-      version: '16.0.0'
+      version: '17.0.0'
     }
   );
 
@@ -83,7 +83,7 @@ describe('ng-add', () => {
     expect(server).toContain("import 'zone.js/node'");
     expect(main).toContain('await app.listen(process.env[\'PORT\'] || 4000)');
     expect(appModule).toContain(
-      "viewsPath: join(process.cwd(), 'dist/ng-universal-app/browser')"
+      "viewsPath: join(process.cwd(), 'dist/ng-universal-app')"
     );
   });
 
@@ -108,31 +108,9 @@ describe('ng-add', () => {
       'class-validator',
       '@nestjs/platform-express',
       '@nestjs/ng-universal',
-      '@nguniversal/express-engine'
+      '@angular/ssr'
     ].forEach((dependency) => {
       expect(dependencies).toContain(dependency);
     });
-  });
-
-  it('should add externalDependencies and disable optimization for the server target', async () => {
-    // Arrange & act
-    tree = await schematicRunner.runSchematic<NgAddOptions>(
-      'ng-add',
-      appOptions,
-      tree
-    );
-
-    const { projects } = JSON.parse(getFileContent(tree, '/angular.json'));
-    const { server } = projects[appOptions.project].architect;
-
-    // Assert
-    expect(server.configurations.production.optimization).toEqual(false);
-    expect(server.options.externalDependencies).toEqual([
-      '@nestjs/microservices',
-      '@nestjs/microservices/microservices-module',
-      '@nestjs/websockets',
-      '@nestjs/websockets/socket-module',
-      'cache-manager'
-    ]);
   });
 });

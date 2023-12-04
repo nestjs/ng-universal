@@ -63,8 +63,8 @@ function addDependenciesAndScripts(): Rule {
     });
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
-      name: '@nguniversal/express-engine',
-      version: '^16.0.0'
+      name: '@angular/ssr',
+      version: '^17.0.0'
     });
 
     const pkgPath = '/package.json';
@@ -79,35 +79,6 @@ function addDependenciesAndScripts(): Rule {
     };
 
     host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
-  };
-}
-
-function updateWorkspaceConfigRule(options: UniversalOptions): Rule {
-  return () => {
-    return updateWorkspace((workspace) => {
-      const projectName =
-        options.project || <string>workspace.extensions.defaultProject;
-      const project = workspace.projects.get(projectName);
-      if (!project) {
-        return;
-      }
-
-      const serverTarget = project.targets.get('server');
-      serverTarget.options.externalDependencies = [
-        '@nestjs/microservices',
-        '@nestjs/microservices/microservices-module',
-        '@nestjs/websockets',
-        '@nestjs/websockets/socket-module',
-        'cache-manager'
-      ];
-      const configurations = serverTarget.configurations;
-      if (!configurations) {
-        return;
-      }
-      if (configurations.production) {
-        configurations.production.optimization = false;
-      }
-    });
   };
 }
 
@@ -148,10 +119,9 @@ export default function (options: UniversalOptions): Rule {
     }
 
     return chain([
-      externalSchematic('@nguniversal/express-engine', 'ng-add', options),
+      externalSchematic('@angular/ssr', 'ng-add', options),
       addFiles(options),
       addDependenciesAndScripts(),
-      updateWorkspaceConfigRule(options)
     ]);
   };
 }
