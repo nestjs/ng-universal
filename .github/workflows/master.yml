@@ -1,0 +1,39 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: dependency-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            dependency-cache-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests for schematics
+        run: npm run test:schematics
