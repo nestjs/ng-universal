@@ -1,55 +1,15 @@
 import { Logger } from '@nestjs/common';
-import { ngExpressEngine } from '@nguniversal/express-engine';
+import { APP_BASE_HREF } from '@angular/common';
+import { CommonEngine } from '@angular/ssr';
 import * as express from 'express';
-import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
-import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
-import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
 
-const DEFAULT_CACHE_EXPIRATION_TIME = 60000; // 60 seconds
+import { AngularUniversalOptions } from '../interfaces/angular-universal-options.interface';
+import { AngularUniversalCacheOptions } from '../interfaces/angular-universal-cache-options.interface';
 
 const logger = new Logger('AngularUniversalModule');
+const commonEngine = new CommonEngine();
 
 export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
-  const cacheOptions = getCacheOptions(ngOptions);
-
-  app.engine('html', (_, options, callback) => {
-    let cacheKey;
-    if (cacheOptions.isEnabled) {
-      const cacheKeyGenerator = cacheOptions.keyGenerator;
-      cacheKey = cacheKeyGenerator.generateCacheKey(options.req);
-      const cacheHtml = cacheOptions.storage.get(cacheKey);
-      if (cacheHtml) {
-        return callback(null, cacheHtml);
-      }
-    }
-
-    ngExpressEngine({
-      bootstrap: ngOptions.bootstrap,
-      inlineCriticalCss: ngOptions.inlineCriticalCss,
-      providers: [
-        {
-          provide: 'serverUrl',
-          useValue: `${options.req.protocol}://${options.req.get('host')}`
-        },
-        ...(ngOptions.extraProviders || [])
-      ]
-    })(_, options, (err, html) => {
-      if (err && ngOptions.errorHandler) {
-        return ngOptions.errorHandler({ err, html, renderCallback: callback });
-      }
-
-      if (err) {
-        logger.error(err);
-        return callback(err);
-      }
-
-      if (cacheOptions.isEnabled && cacheKey) {
-        cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
-      }
-      callback(null, html);
-    });
-  });
-
   app.set('view engine', 'html');
   app.set('views', ngOptions.viewsPath);
 
@@ -62,25 +22,49 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
   );
 }
 
-export function getCacheOptions(ngOptions: AngularUniversalOptions) {
-  if (!ngOptions.cache) {
-    return {
-      isEnabled: false
-    };
+export function renderUniversal(
+  req: express.Request,
+  res: express.Response,
+  next: express.Next,
+  ngOptions: AngularUniversalOptions,
+  cacheOptions: AngularUniversalCacheOptions
+) {
+  const { protocol, originalUrl, baseUrl, headers } = req;
+
+  const cacheKey =
+    cacheOptions.isEnabled && cacheOptions.keyGenerator.generateCacheKey(req);
+
+  if (cacheKey) {
+    const cacheHtml = cacheOptions.storage.get(cacheKey);
+    if (cacheHtml) {
+      res.send(cacheHtml);
+    }
   }
-  if (typeof ngOptions.cache !== 'object') {
-    return {
-      isEnabled: true,
-      storage: new InMemoryCacheStorage(),
-      expiresIn: DEFAULT_CACHE_EXPIRATION_TIME,
-      keyGenerator: new CacheKeyByOriginalUrlGenerator()
-    };
-  }
-  return {
-    isEnabled: true,
-    storage: ngOptions.cache.storage || new InMemoryCacheStorage(),
-    expiresIn: ngOptions.cache.expiresIn || DEFAULT_CACHE_EXPIRATION_TIME,
-    keyGenerator:
-      ngOptions.cache.keyGenerator || new CacheKeyByOriginalUrlGenerator()
-  };
+
+  commonEngine
+    .render({
+      bootstrap: ngOptions.bootstrap,
+      documentFilePath: ngOptions.templatePath,
+      inlineCriticalCss: ngOptions.inlineCriticalCss,
+      url: `${protocol}://${headers.host}${originalUrl}`,
+      publicPath: ngOptions.viewsPath,
+      providers: [
+        { provide: APP_BASE_HREF, useValue: baseUrl },
+        ...(ngOptions.extraProviders ?? [])
+      ]
+    })
+    .then((html) => {
+      if (cacheKey) {
+        cacheOptions.storage.set(cacheKey, html, cacheOptions.expiresIn);
+      }
+      res.send(html);
+    })
+    .catch((err) => {
+      if (ngOptions.errorHandler) {
+        return ngOptions.errorHandler({ err, html: '', renderCallback: next });
+      }
+
+      logger.error(err);
+      return next(err);
+    });
 }

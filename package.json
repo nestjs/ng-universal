@@ -16,25 +16,24 @@
     "publish:next": "npm publish --access public --tag next"
   },
   "peerDependencies": {
-    "@angular/common": "^14.0.0 || ^15.0.0 || ^16.0.0",
-    "@angular/platform-server": "^14.0.0 || ^15.0.0 || ^16.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/platform-server": "^17.0.0",
+    "@angular/ssr": "^17.0.0",
     "@nestjs/common": "^9.0.0 || ^10.0.0",
     "@nestjs/core": "^9.0.0 || ^10.0.0",
     "@nestjs/platform-express": "^9.0.0 || ^10.0.0",
-    "@nguniversal/common": "^14.0.0 || ^15.0.0 || ^16.0.0",
-    "@nguniversal/express-engine": "^14.0.0 || ^15.0.0 || ^16.0.0",
     "express": "^4.17.1",
-    "zone.js": "^0.12.0 || ^0.13.0"
+    "zone.js": "^0.14.0"
   },
   "devDependencies": {
-    "@angular/common": "16.2.3",
-    "@angular/platform-server": "16.2.3",
+    "@angular/cli": "17.0.5",
+    "@angular/common": "17.0.5",
+    "@angular/platform-server": "17.0.5",
+    "@angular/ssr": "17.0.5",
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-angular": "17.7.0",
     "@nestjs/common": "10.2.3",
     "@nestjs/core": "10.2.3",
-    "@nguniversal/common": "16.2.0",
-    "@nguniversal/express-engine": "16.2.0",
     "@types/jest": "29.5.4",
     "@types/memory-cache": "0.2.3",
     "@types/node": "18.17.12",
@@ -46,13 +45,12 @@
     "ts-jest": "29.1.1",
     "ts-morph": "19.0.0",
     "typescript": "5.2.2",
-    "zone.js": "0.13.1"
+    "zone.js": "0.14.2"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "16.1.0",
-    "@nguniversal/common": "^14.0.0 || ^15.0.0 || ^16.0.0",
-    "@nguniversal/express-engine": "^14.0.0 || ^15.0.0 || ^16.0.0",
-    "@schematics/angular": "16.1.0",
+    "@angular-devkit/schematics": "17.0.5",
+    "@angular/core": "17.0.5",
+    "@schematics/angular": "17.0.5",
     "domino": "2.1.6",
     "memory-cache": "0.2.0"
   },
