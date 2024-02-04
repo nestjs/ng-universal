@@ -81,10 +81,41 @@ describe('ng-add', () => {
 
     // Assert
     expect(server).toContain("import 'zone.js/node'");
-    expect(main).toContain('await app.listen(process.env[\'PORT\'] || 4000)');
+    expect(main).toContain("await app.listen(process.env['PORT'] || 4000)");
+
+    expect(appModule).toContain('bootstrap,');
     expect(appModule).toContain(
-      "viewsPath: join(process.cwd(), 'dist/ng-universal-app')"
+      "viewsPath: join(process.cwd(), 'dist/ng-universal-app/browser')"
     );
+  });
+
+  it('should import AppServerModule in app.module.ts when is not an standalone application', async () => {
+    // Arrange & act
+    const getIsStandaloneApp = jest.spyOn(
+      require('../utils'),
+      'getIsStandaloneApp'
+    );
+
+    getIsStandaloneApp.mockImplementation(() => false);
+
+    tree = await schematicRunner.runSchematic<NgAddOptions>(
+      'ng-add',
+      appOptions,
+      tree
+    );
+
+    const appModule = getFileContent(tree, '/server/app.module.ts');
+
+    // Assert
+    expect(appModule).toContain(
+      "import AppServerModule from '../src/main.server'"
+    );
+    expect(appModule).toContain('bootstrap: AppServerModule,');
+    expect(appModule).toContain(
+      "viewsPath: join(process.cwd(), 'dist/ng-universal-app/browser')"
+    );
+
+    getIsStandaloneApp.mockRestore();
   });
 
   it('should install dependencies', async () => {

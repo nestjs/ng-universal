@@ -8,7 +8,6 @@ import {
   mergeWith,
   Rule,
   SchematicContext,
-  SchematicsException,
   template,
   Tree,
   url
@@ -20,11 +19,10 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { updateWorkspace } from '@schematics/angular/utility/workspace';
 import { Schema as UniversalOptions } from './schema';
-import { getOutputPath } from './utils';
+import { getOutputPath, getIsStandaloneApp } from './utils';
+import { Logger } from '@nestjs/common';
 
-const SERVER_DIST = 'dist/server';
-
-function addDependenciesAndScripts(): Rule {
+function addDependencies(options: UniversalOptions): Rule {
   return (host: Tree) => {
     addPackageJsonDependency(host, {
       type: NodeDependencyType.Default,
@@ -61,43 +59,57 @@ function addDependenciesAndScripts(): Rule {
       name: '@nestjs/ng-universal',
       version: '^8.0.0'
     });
-    addPackageJsonDependency(host, {
-      type: NodeDependencyType.Default,
-      name: '@angular/ssr',
-      version: '^17.0.0'
+
+    updateWorkspace((workspace) => {
+      const workspaceProject = workspace.projects.get(options.project);
+
+      if (!workspaceProject) {
+        return;
+      }
+
+      const buildTarget = workspaceProject.targets.get('build');
+
+      if (!buildTarget?.options) {
+        Logger.warn(
+          `Cannot find 'options' for ${options.project} build target.`
+        );
+        return;
+      }
+
+      const externalDependencies =
+        buildTarget.options.externalDependencies ?? [];
+
+      if (!Array.isArray(externalDependencies)) {
+        Logger.warn(
+          `externalDependencies property in 'options' for ${options.project} build target is not an array.`
+        );
+        return;
+      }
+
+      buildTarget.options.externalDependencies = [
+        ...externalDependencies,
+        '@nestjs/core',
+        '@nestjs/common',
+        '@nestjs/websockets',
+        '@nestjs/microservices',
+        '@nestjs/ng-universal',
+        'domino'
+      ];
     });
-
-    const pkgPath = '/package.json';
-    const buffer = host.read(pkgPath);
-    if (buffer === null) {
-      throw new SchematicsException('Could not find package.json');
-    }
-    const pkg = JSON.parse(buffer.toString());
-    pkg.scripts = {
-      ...pkg.scripts,
-      'prebuild:ssr': `ngcc`
-    };
-
-    host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
   };
 }
 
 function addFiles(options: UniversalOptions): Rule {
   return async (tree: Tree, _context: SchematicContext) => {
-    const browserDistDirectory = await getOutputPath(
-      tree,
-      options.project,
-      'build'
-    );
+    const browserDistDir = await getOutputPath(tree, options.project);
+    const isStandalone = await getIsStandaloneApp(tree, options.project);
+
     const rule = mergeWith(
       apply(url('./files/root'), [
         template({
           ...strings,
-          ...(options as object),
-          stripTsExtension: (s: string) => s.replace(/\.ts$/, ''),
-          getBrowserDistDirectory: () => browserDistDirectory,
-          getServerDistDirectory: () => SERVER_DIST,
-          getClientProjectName: () => options.project
+          browserDistDir,
+          isStandalone
         }),
         forEach((fileEntry: FileEntry) => {
           if (tree.exists(fileEntry.path)) {
@@ -121,7 +133,7 @@ export default function (options: UniversalOptions): Rule {
     return chain([
       externalSchematic('@angular/ssr', 'ng-add', options),
       addFiles(options),
-      addDependenciesAndScripts(),
+      addDependencies(options)
     ]);
   };
 }

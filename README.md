@@ -114,7 +114,8 @@ export class CustomCacheKeyGenerator implements CacheKeyGenerator {
 
 ## Request and Response Providers
 
-This tool uses `@angular/ssr` and will properly provide access to the Express Request and Response objects in your Angular components. Note that tokens must be imported from the `@nestjs/ng-universal/tokens`.
+This tool uses `@angular/ssr` and will properly provide access to the Express Request and Response objects in your Angular components.
+Note since Angular 17, tokens are no longer provided by Angular, and must be imported from the `@nestjs/ng-universal/tokens`.
 
 This is useful for things like setting the response code to 404 when your Angular router can't find a page (i.e. `path: '**'` in routing):
 

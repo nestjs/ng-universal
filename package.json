@@ -26,6 +26,7 @@
     "zone.js": "^0.14.0"
   },
   "devDependencies": {
+    "@angular/cli": "17.0.5",
     "@angular/common": "17.0.5",
     "@angular/platform-server": "17.0.5",
     "@angular/ssr": "17.0.5",
@@ -49,7 +50,6 @@
   "dependencies": {
     "@angular-devkit/schematics": "17.0.5",
     "@angular/core": "17.0.5",
-    "@angular/ssr": "17.0.5",
     "@schematics/angular": "17.0.5",
     "domino": "2.1.6",
     "memory-cache": "0.2.0"
