@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "@angular/common": "^14.0.0 || ^15.0.0 || ^16.0.0",
-    "@angular/platform-server": "^14.0.0 || ^15.0.0 || ^16.0.0",
+    "@angular/platform-server": "^18.0.0",
     "@nestjs/common": "^9.0.0 || ^10.0.0",
     "@nestjs/core": "^9.0.0 || ^10.0.0",
     "@nestjs/platform-express": "^9.0.0 || ^10.0.0",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@angular/common": "16.2.3",
-    "@angular/platform-server": "16.2.3",
+    "@angular/platform-server": "18.2.14",
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-angular": "17.7.0",
     "@nestjs/common": "10.2.3",
